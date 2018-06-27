@@ -1,4 +1,4 @@
-#include "Node.cpp"
+#include "DoubleNode.cpp"
 #include <iostream>
 #include <string>
 using namespace std;
@@ -12,15 +12,15 @@ public:
     /*---copy constructor---*/
     LinkList(const Type& Item1);
     LinkList(const LinkList<Type>& other);
-    LinkList(Node<Type>* other, int count);
+    LinkList(DoubleNode<Type>* other, int count);
     LinkList<Type>& operator=(LinkList<Type>& other);
     /*---set and get---*/
-    void insertAtBack(Node<Type>* otherNode);
-    void insertAtFront(Node<Type>* otherNode);
+    void insertAtBack(DoubleNode<Type>* otherDoubleNode);
+    void insertAtFront(DoubleNode<Type>* otherDoubleNode);
     void clear();
-    Node<Type>* operator[](int order);
-protected:
-    Node<Type>* head;
+    DoubleNode<Type>* operator[](int order);
+//protected:
+    DoubleNode<Type>* head;
     int count;
     void copy(const LinkList<Type>& other);
 };
@@ -34,7 +34,7 @@ LinkList<Type>::LinkList()
 template <typename Type>
 LinkList<Type>::LinkList(const Type& Item1)
 {
-    this->head = new Node<Type>(Item1);
+    this->head = new DoubleNode<Type>(Item1);
     count = 1;
 }
 
@@ -45,20 +45,21 @@ LinkList<Type>::LinkList(const LinkList<Type>& other)
 }
 
 template <typename Type>
-LinkList<Type>::LinkList(Node<Type>* other, int count)
+LinkList<Type>::LinkList(DoubleNode<Type>* other, int count)
 {
     this->count = count;
     if(other==nullptr)
         this->head = nullptr;
     else
     {
-        this->head = new Node<Type>(other);
-        Node<Type>* cur = this->head;
+        this->head = new DoubleNode<Type>(other);
+        DoubleNode<Type>* cur = this->head;
         other = other->getNext();
         while(other!=nullptr)
         {
-            Node<Type>* newNode = new Node<Type>(other);
-            cur ->setNext(newNode);
+            DoubleNode<Type>* newDoubleNode = new DoubleNode<Type>(other);
+            cur ->setNext(newDoubleNode);
+            newDoubleNode->setPrevious(cur);
             cur = cur->getNext();
             other = other->getNext();
         }
@@ -75,14 +76,15 @@ void LinkList<Type>::copy(const LinkList<Type>& other)
         this->head = nullptr;
     else
     {
-        this->head = new Node<Type>(other.head);
-        Node<Type>* otherHead = other.head;
-        Node<Type>* selfHead = this->head;
+        this->head = new DoubleNode<Type>(other.head);
+        DoubleNode<Type>* otherHead = other.head;
+        DoubleNode<Type>* selfHead = this->head;
         otherHead = otherHead->getNext();
         while(otherHead!=nullptr)
         {
-            Node<Type>* newNode = new Node<Type>(otherHead);
-            selfHead -> setNext(newNode);
+            DoubleNode<Type>* newDoubleNode = new DoubleNode<Type>(otherHead);
+            selfHead -> setNext(newDoubleNode);
+            newDoubleNode->setPrevious(selfHead);
             selfHead = selfHead->getNext();
             otherHead = otherHead->getNext();
         }
@@ -97,12 +99,12 @@ template <typename Type>
 void LinkList<Type>::clear()
 {
     count = 0;
-    Node<Type>* curPtr = this->head;
+    DoubleNode<Type>* curPtr = this->head;
     if(curPtr!=nullptr)
     {
         while(curPtr!=nullptr)
         {
-            Node<Type>* nextPtr = curPtr->getNext();
+            DoubleNode<Type>* nextPtr = curPtr->getNext();
             delete curPtr;
             curPtr = nextPtr;
         }
@@ -121,42 +123,44 @@ LinkList<Type>& LinkList<Type>::operator=(LinkList<Type>& other)
 
 
 template <typename Type>
-void LinkList<Type>::insertAtBack(Node<Type>* otherNode)
+void LinkList<Type>::insertAtBack(DoubleNode<Type>* otherDoubleNode)
 {
     if(this->head==nullptr)
     {
-        this->head  = new Node<Type>(otherNode);
+        this->head  = new DoubleNode<Type>(otherDoubleNode);
         this->count++;
     }
     else
     {
-        Node<Type>* curPtr = this->head;
-        Node<Type>* next=curPtr->getNext();
+        DoubleNode<Type>* curPtr = this->head;
+        DoubleNode<Type>* next=curPtr->getNext();
         while(next!=nullptr)
         {
             curPtr = next;
             next = next->getNext();
         }
-        Node<Type>* newNode =  new Node<Type>(otherNode);
-        curPtr->setNext(newNode);
+        DoubleNode<Type>* newDoubleNode =  new DoubleNode<Type>(otherDoubleNode);
+        curPtr->setNext(newDoubleNode);
+        newDoubleNode->setPrevious(curPtr);
         this->count++;
     }
 }
 
 template <typename Type>
-void LinkList<Type>::insertAtFront(Node<Type>* otherNode)
+void LinkList<Type>::insertAtFront(DoubleNode<Type>* otherDoubleNode)
 {
     if(this->head==nullptr)
     {
-        this->head  = new Node<Type>(otherNode);
+        this->head  = new DoubleNode<Type>(otherDoubleNode);
         this->count++;
     }
     else
     {
-        Node<Type>* newNode = new Node<Type>(otherNode);
-        Node<Type>* curPtr = this->head;
-        newNode->setNext(curPtr);
-        this->head = newNode;
+        DoubleNode<Type>* newDoubleNode = new DoubleNode<Type>(otherDoubleNode);
+        DoubleNode<Type>* curPtr = this->head;
+        newDoubleNode->setNext(curPtr);
+        curPtr->setPrevious(newDoubleNode);
+        this->head = newDoubleNode;
         this->count++;
     }
 }

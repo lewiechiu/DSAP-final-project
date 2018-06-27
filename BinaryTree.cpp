@@ -127,7 +127,7 @@ void BinaryNodeTree<ItemType>::inorderTakeOut(BinaryNode<ItemType>* treePtr, Lin
     {
         inorderTakeOut(treePtr->getLeftChildPtr(), List);
         ItemType theItem = treePtr->getItem();
-        Node<ItemType>* newNode = new Node<ItemType>(theItem);
+        DoubleNode<ItemType>* newNode = new DoubleNode<ItemType>(theItem);
         List->insertAtFront(newNode);
         // treePtr->setItem(theItem);
         inorderTakeOut(treePtr->getRightChildPtr(), List);
@@ -172,7 +172,7 @@ BinaryNode<ItemType>* BinaryNodeTree<ItemType>::insertInorder(BinaryNode<ItemTyp
 {
     if (subTreePtr==nullptr)
         return newNodePtr;
-    else if (subTreePtr->getItem() > newNodePtr->getItem())
+    else if ( subTreePtr->getItem() > newNodePtr->getItem())
     {
         BinaryNode<ItemType>* tempPtr;
         tempPtr = insertInorder(subTreePtr->getLeftChildPtr(), newNodePtr);
