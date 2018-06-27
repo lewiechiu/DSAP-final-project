@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace std;
 
-template<typename Itemtype>
+template<class Itemtype>
 timeNode<Itemtype>::timeNode():status(0), occurrence(nullptr){}
 
 /*not useful when creating an array of timeNode
@@ -13,30 +13,35 @@ template<class Itemtype>
 timeNode<Itemtype>::timeNode(int theStatus, Itemtype *anOccurrence):status(theStatus), occurrence(anOccurrence){};
  */
 
-template<typename  Itemtype>
+template<class Itemtype>
 void timeNode<Itemtype>::setStatus(int theStatus)
 {
     status = theStatus;
 }
 
-template<typename  Itemtype>
+template<class Itemtype>
 void timeNode<Itemtype>::setOccurrence(Itemtype* anOccurrence)
 {
     occurrence = anOccurrence;
 }
 
-template<typename  Itemtype>
+template<class Itemtype>
 int timeNode<Itemtype>::getStatus()
 {
     return status;
 }
 
-template<typename Itemtype>
+template<class Itemtype>
 Itemtype* timeNode<Itemtype>::getOccurrence()
 {
     return occurrence;
 }
 
+template<class Itemtype>
+void timeNode<Itemtype>::setEventIsScheduled(bool a)
+{
+    occurrence->setIsSchedule(a);
+}
 
 
 
