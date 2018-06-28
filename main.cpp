@@ -1,8 +1,10 @@
+
 #include <iostream>
 #include <string>
-#include "Time.h"
+#include "OurTime.hpp"
+#include "mission.h"
+#include "fixedevent.h"
 using namespace std;
-
 
 
 int main()
@@ -17,7 +19,7 @@ int main()
 	//201804231934
 
 /*
-	
+
 	Initialize an linklist of week pointer like 52 week
 	With each of it being a pointer pointing to 7 days (an array)
 	I have to initalize everyday and restart
@@ -37,7 +39,7 @@ int main()
 
 
 
-	Time a;
+
 	cin >> oper;
 
 //					view past calendar
@@ -47,7 +49,7 @@ int main()
 	{
 
 		/*
-		view list should be able to display past and current and future 
+		view list should be able to display past and current and future
 		First display current week
 
 
@@ -64,90 +66,104 @@ int main()
 			cout << "press 3 for finishing an event" << endl;
 			cout << "press 5 for event deletion" << endl;
 			cout << "press 2 for adding a new event" << endl;
+			cin >> oper;
+			if(oper == 2)
+			{
 				/*
-					add a mission event
-						clear out all the mission
-						add a new mission
-						recalculate
-						put it back into the day list
-					add a fixed event
-						if there is an overlapping
-							not allowed
 
-						clear out al the mission
-						insert fixed event
-						recalculate and then insert
+				Rule of thumbs to keep in mind:
+				1. We do not determine whether the mission needs more time or not
+				2. Once the event within three days have been made, no further changes should be made.
+				2-1 Unless it is significantly import and of great urgency
+				2-2 If we encounter running out of time, let the user decide what he/she should do either
+					1. sleep less
+					2. Abandon unimportant missions
 
-					viewing style would be weekly
+
+				First, we require the uncompleted mission sorted list to give us a bag of mission.
+				From the bag of mission we can
 				*/
+				cout << "press 1 for adding a fixed event" << endl;
+				cout << "press 2 for adding a flexible mission" << endl;
+				cin >> oper;
+				if(oper==1)
+				{
+					string fixedEventName;
+					string startTime;
+					string endTime;
+
+					cout << "Please type fixedEventName" << endl;
+					cin >> fixedEventName;
+					cout << "Please type startTime" << endl;
+					cout << "in the form of: \n 201806301125 " << endl;
+					cin >> startTime;
+					OurTime start(startTime);
+					start.setYear(stoi(startTime.substr(0,4)));
+					cout << "Please type end time or deadline" << endl;
+					cin >> startTime;
+					OurTime endT(startTime);
+					cin >> endTime;
+
+					/*
+					Now we would have a fixed event
+					We need just passing the event into the Day class
+					The Day class might need some function to help making the time occupied by fixed event be unavailable to use
+
+					*/
+				}
+				else if(oper==2)
+				{
+					string EventName;
+					string DDL;
+					int priority;
+					cout << "Please type EventName" << endl;
+					cin >> EventName;
+					//	total time to complete the mission
+					cout << "Please type Deadline time in the following format:" << endl;
+					//	longest period of continuous doing
+					cout << "2016/06/30 19:00" << endl;
+					cin >> DDL;
+					cout << "please type in priority" << endl;
+					cout << "with least important:1 to utmost important:10" << endl;
+					cin >> priority;
+
+
+					/*
+						Now that I can create a new flexible mission variable.
+						We need to gain the access of the Uncompleted mission list
+						We pass the list into
+						Acquire how much time is available in a single day.
+						Pass that amount, and the uncompleted mission list into the knapsack algorithm
+						The algorithm should return an array containing
+							1. Mission name
+							2. Mission duration
+						That array would be passed into the day class and be inserted.
+					*/
+				}
+				else
+					cout << "Enter something that is readable FOOL!!" << endl;
+						/*
+							add a mission event
+								clear out all the mission
+								add a new mission
+								recalculate
+								put it back into the day list
+							add a fixed event
+								if there is an overlapping
+									not allowed
+
+								clear out al the mission
+								insert fixed event
+								recalculate and then insert
+
+							viewing style would be weekly
+						*/
+			}
+
 	}
 	else if(oper==2)
 	{
-		/*
-		Rule of thumbs to keep in mind:
-		1. We do not determine whether the mission needs more time or not
-		2. Once the event within three days have been made, no further changes should be made.
-		2-1 Unless it is significantly import and of great urgency
-		2-2 If we encounter running out of time, let the user decide what he/she should do either 
-			1. sleep less
-			2. Abandon unimportant missions
 
-
-		First, we require the uncompleted mission sorted list to give us a bag of mission.
-		From the bag of mission we can 
-		*/
-		cout << "press 1 for adding a fixed event" << endl;
-		cout << "press 2 for adding a flexible mission" << endl;
-		cin >> oper;
-		if(oper==1)
-		{
-			string fixedEventName;
-			string startTime;
-			string endTime;
-			cout << "Please type fixedEventName" << endl;
-			cin >> fixedEventName;
-			cout << "Please type startTime" << endl;
-			cin >> startTime;
-			cout << "Please type endTime" << endl;
-			cin >> endTime;
-			/*
-			Now we would have a fixed event
-			We need just passing the event into the Day class
-			The Day class might need some function to help making the time occupied by fixed event be unavailable to use
-			
-			*/
-		}
-		else if(oper==2)
-		{
-			string EventName;
-			string DDL;
-			int priority;
-			cout << "Please type EventName" << endl;
-			cin >> EventName;
-			//	total time to complete the mission
-			cout << "Please type Deadline time in the following format:" << endl;
-			//	longest period of continuous doing 
-			cout << "2016/06/30 19:00" << endl;
-			cin >> DDL;
-			cout << "please type in priority" << endl;
-			cout << "with least important:1 to utmost important:10" << endl;
-			cin >> priority;
-			
-
-			/*
-				Now that I can create a new flexible mission variable.
-				We need to gain the access of the Uncompleted mission list
-				We pass the list into 
-				Acquire how much time is available in a single day.
-				Pass that amount, and the uncompleted mission list into the knapsack algorithm
-				The algorithm should return an array containing
-					1. Mission name
-					2. Mission duration
-				That array would be passed into the day class and be inserted.
-			*/
-		}
-		else
-			cout << "Enter something that is readable FOOL!!" << endl;
 	}
 	else if(oper==3)
 	{
