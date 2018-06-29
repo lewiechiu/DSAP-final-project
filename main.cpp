@@ -4,11 +4,31 @@
 #include "OurTime.hpp"
 #include "mission.h"
 #include "fixedevent.h"
+#include <SFML/Graphics.hpp>
 using namespace std;
 
 
 int main()
 {
+
+    sf::RenderWindow win(sf::VideoMode(200, 200), "SFML Test");
+    sf::CircleShape shape(100.f);
+    shape.setFillColor(sf::Color::Green);
+
+    while (win.isOpen())
+    {
+        sf::Event event;
+        while (win.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+            {
+                win.close();
+            }
+        }
+        win.clear();
+        win.draw(shape);
+        win.display();
+    }
 
 	cout << "press 1 for showing the view eventlist" << endl;
 
@@ -17,7 +37,6 @@ int main()
 	cout << "press  for exit" << endl;
 	int oper;
 	//201804231934
-
 /*
 
 	Initialize an linklist of week pointer like 52 week
@@ -91,19 +110,24 @@ int main()
 					string fixedEventName;
 					string startTime;
 					string endTime;
+					string category;
+					int duration;
 
 					cout << "Please type fixedEventName" << endl;
 					cin >> fixedEventName;
-					cout << "Please type startTime" << endl;
-					cout << "in the form of: \n 201806301125 " << endl;
+
+					cout << "Please type startTime in the form of: \n201806301125 " << endl;
 					cin >> startTime;
-					OurTime start;
-					start.setYear(stoi(startTime.substr(0,4)));
-					cout << "Please type end time or deadline" << endl;
-					cin >> startTime;
-					OurTime endT(startTime);
+					OurTime startT(startTime);
+
+					cout << "end Time" << endl;
 					cin >> endTime;
 
+					cout << "category" << endl;
+					cin >> category;
+					OurTime endT(endTime);
+					duration = endT - startT;
+					FixedEvent one(fixedEventName,category,startT,endT,duration);
 					/*
 					Now we would have a fixed event
 					We need just passing the event into the Day class
@@ -113,21 +137,32 @@ int main()
 				}
 				else if(oper==2)
 				{
-					string EventName;
-					string DDL;
+					string MissionName;
+					string Deadline;
+					string StartTime;
 					int priority;
-					cout << "Please type EventName" << endl;
-					cin >> EventName;
+					int duration;
+					cout << "Please type mission Name" << endl;
+					cin >> MissionName;
 					//	total time to complete the mission
-					cout << "Please type Deadline time in the following format:" << endl;
-					//	longest period of continuous doing
-					cout << "2016/06/30 19:00" << endl;
-					cin >> DDL;
-					cout << "please type in priority" << endl;
-					cout << "with least important:1 to utmost important:10" << endl;
+					cout << "Please type startTime in the form of: \n201806301125 " << endl;
+					cin >> StartTime;
+
+                    cout << "DeadLine?" << endl;
+					cin >> Deadline;
+
+					duaration = Deadline
+
+					cout << "please type in priority\nwith least important:1 to utmost important:10" << endl;
 					cin >> priority;
 
 
+
+
+					cout << "category" << endl;
+					cin >> category;
+
+					Mission(MissionName,category,)
 					/*
 						Now that I can create a new flexible mission variable.
 						We need to gain the access of the Uncompleted mission list
