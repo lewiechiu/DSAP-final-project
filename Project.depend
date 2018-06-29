@@ -1,0 +1,79 @@
+# depslib dependency file v1.0
+1530235815 source:c:\users\lewie\desktop\school\dsap\project\calendar\project\main.cpp
+	<iostream>
+	<string>
+	<time.h>
+	"OurTime.hpp"
+	"mission.h"
+	"fixedevent.h"
+
+1530236861 c:\users\lewie\desktop\school\dsap\project\calendar\project\ourtime.hpp
+	<iostream>
+	<string>
+	<time.h>
+
+1530201980 c:\users\lewie\desktop\school\dsap\project\calendar\project\mission.h
+	<string>
+	"event.h"
+
+1530198143 c:\users\lewie\desktop\school\dsap\project\calendar\project\event.h
+	<string>
+	"OurTime.hpp"
+
+1530196354 c:\users\lewie\desktop\school\dsap\project\calendar\project\fixedevent.h
+	<string>
+	"event.h"
+	"OurTime.hpp"
+
+1530196064 source:c:\users\lewie\desktop\school\dsap\project\calendar\project\day.cpp
+	"Day.hpp"
+	<iostream>
+	<string>
+
+1530194321 c:\users\lewie\desktop\school\dsap\project\calendar\project\day.hpp
+	"timeNode.hpp"
+	<string>
+	"OurTime.hpp"
+	"mission.h"
+	"FixedEvent.h"
+
+1530052918 c:\users\lewie\desktop\school\dsap\project\calendar\project\timenode.hpp
+
+1530198060 source:c:\users\lewie\desktop\school\dsap\project\calendar\project\event.cpp
+	"event.h"
+	"OurTime.hpp"
+	<string>
+
+1530199837 source:c:\users\lewie\desktop\school\dsap\project\calendar\project\fixedevent.cpp
+	"event.h"
+	"FixedEvent.h"
+	"Event.h"
+	<string>
+
+1530052918 source:c:\users\lewie\desktop\school\dsap\project\calendar\project\node.cpp
+	<stdio.h>
+	<iostream>
+
+1530236861 source:c:\users\lewie\desktop\school\dsap\project\calendar\project\ourtime.cpp
+	<stdio.h>
+	"OurTime.hpp"
+	<iostream>
+	<string>
+	<time.h>
+
+1530052918 source:c:\users\lewie\desktop\school\dsap\project\calendar\project\timenode.cpp
+	"timeNode.hpp"
+	<iostream>
+
+1530236885 source:c:\users\lewie\desktop\school\dsap\project\calendar\project\knapscak.cpp
+	<iostream>
+
+1530201376 source:c:\users\lewie\desktop\school\dsap\project\calendar\project\global functions.cpp
+	<time.h>
+	<iostream>
+
+1530236125 source:c:\users\lewie\desktop\school\dsap\project\calendar\project\mission.cpp
+	"mission.h"
+	"time.h"
+	<string>
+

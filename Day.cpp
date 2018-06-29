@@ -70,13 +70,13 @@ void Day<fixedEvent, mission>::fillTime(Mission* missionToAllocate[], int number
 
                 if(count == 0)
                 {
-                    Time startTime;
+                    OurTime startTime;
                     startTime.setYear(today.getYear());
                     startTime.setMonth(today.getMonth());
                     startTime.setDay(today.getDay());
                     startTime.setHour((current+restTime)/60);
                     startTime.setMinute((current+restTime)%60);
-                    Time endTime;
+                    OurTime endTime;
                     endTime.setYear(today.getYear());
                     endTime.setMonth(today.getMonth());
                     endTime.setDay(today.getDay());
@@ -104,7 +104,7 @@ void Day<fixedEvent, mission>::deleteNonFixedEvent()//in order to reschedule
     {
         if(timeLine_type[i]!=2)//if status != fixedEvent
         {
-            Time resetTime("000000000000");
+            OurTime resetTime("000000000000");
             timeLine_mission[i].getOccurrence()->setStartTime(resetTime);
             timeLine_mission[i].getOccurrence()->setEndTime(resetTime);
             timeLine_type[i] = 0;//set status to not allocated

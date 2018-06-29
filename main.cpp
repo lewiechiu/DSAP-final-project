@@ -1,6 +1,6 @@
-
 #include <iostream>
 #include <string>
+#include <time.h>
 #include "OurTime.hpp"
 #include "mission.h"
 #include "fixedevent.h"
@@ -69,8 +69,8 @@ int main()
 			cin >> oper;
 			if(oper == 2)
 			{
+				Mission a;
 				/*
-
 				Rule of thumbs to keep in mind:
 				1. We do not determine whether the mission needs more time or not
 				2. Once the event within three days have been made, no further changes should be made.
@@ -97,7 +97,7 @@ int main()
 					cout << "Please type startTime" << endl;
 					cout << "in the form of: \n 201806301125 " << endl;
 					cin >> startTime;
-					OurTime start(startTime);
+					OurTime start;
 					start.setYear(stoi(startTime.substr(0,4)));
 					cout << "Please type end time or deadline" << endl;
 					cin >> startTime;

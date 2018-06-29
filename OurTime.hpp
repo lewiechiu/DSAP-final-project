@@ -1,7 +1,8 @@
-#ifndef Time_h
-#define Time_h
+#ifndef __OurTime_HPP_INCLUDED__
+#define __OurTime_HPP_INCLUDED__
 #include <iostream>
 #include <string>
+#include <time.h>
 using namespace std;
 
 //Declaration of global functions
@@ -10,10 +11,10 @@ int yearDays(int year);
 
 //Declaration of Time----------------------------------------------//
 class OurTime{
-    
+
     friend const OurTime operator+(const OurTime& t, int minute);
     friend ostream& operator<<(ostream& out, const OurTime& t);
-    
+
 private:
     string timeStr; //201808291503
     int year;       //2018
@@ -21,12 +22,12 @@ private:
     int day;        //29
     int hour;       //15
     int minute;     //03
-    
+
 public:
     OurTime();
     OurTime(string timeStr);
     OurTime(const OurTime& t);
-    
+
     void setYear(int y);
     void setMonth(int m);
     void setDay(int d);
@@ -35,11 +36,15 @@ public:
     void setTimeStr();
     int getYear();
     int getMonth();
-    
+    int getDay();
+    int getHour();
+    int getMinute();
+
     bool monthChanged(int addingDay);
     void newDate(int addingDay);
-    
-    const int operator-(const OurTime& t);
+    void Current();
+
+    int operator-(const OurTime& t) const;
 };
 const OurTime operator+(const OurTime& t, int minute);
 ostream& operator<<(ostream& out, const OurTime& t);

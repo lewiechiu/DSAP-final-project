@@ -4,7 +4,7 @@
 #include <string>
 using namespace std;
 #define TIME_SIZE 1440
-#include "OurTime.h"
+#include "OurTime.hpp"
 #include "mission.h"
 #include "FixedEvent.h"
 

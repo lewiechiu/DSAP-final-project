@@ -2,6 +2,7 @@
 #include "OurTime.hpp"
 #include <iostream>
 #include <string>
+#include <time.h>
 using namespace std;
 
 //Implementation of Time----------------------------------------------//
@@ -61,7 +62,7 @@ void OurTime::setTimeStr()
     if(this->minute < 10)
         newTimeStr += to_string(0);
     newTimeStr += to_string(this->minute);
-    
+
     this->timeStr = newTimeStr;
 }
 int OurTime::getYear()
@@ -72,11 +73,35 @@ int OurTime::getMonth()
 {
     return this->month;
 }
+int OurTime::getDay()
+{
+    return this->day;
+}
+int OurTime::getHour()
+{
+    return this->hour;
+}
+int OurTime::getMinute()
+{
+    return this->minute;
+}
 bool OurTime::monthChanged(int addingDay)
 {
     if((monthDays(this->month, this->year) - this->day) < addingDay)
         return true;
     return false;
+}
+void OurTime::Current()
+{
+    time_t now;
+    struct tm *timeinfo;
+    time(&now);
+    timeinfo = localtime(&now);
+    this->year = timeinfo->tm_year+1900;
+    this->month = timeinfo->tm_mon +1;
+    this->day = timeinfo->tm_mday;
+    this->hour = timeinfo->tm_hour;
+    this->minute = timeinfo->tm_min;
 }
 void OurTime::newDate(int addingDay)
 {
@@ -84,7 +109,7 @@ void OurTime::newDate(int addingDay)
     int date = this->day;
     int daysOfMonth = 0;
     int aNewYear  = 0;
-    
+
     while(addingDay != 0)
     {
         daysOfMonth = monthDays(mon, (this->year + aNewYear));
@@ -105,7 +130,7 @@ void OurTime::newDate(int addingDay)
             date += addingDay;
         }
     }
-    
+
     if(date != 0)
     {
         this->day = date;
@@ -129,7 +154,7 @@ void OurTime::newDate(int addingDay)
         }
     }
 }
-const int OurTime::operator-(const OurTime& t)
+int OurTime::operator-(const OurTime& t) const
 {
     OurTime minus(*this);
     int period = 0;
@@ -176,7 +201,7 @@ const int OurTime::operator-(const OurTime& t)
             {
                 period += (this->hour - t.hour - 1) * 60;
                 period += (this->day - t.day) * 60 * 24;
-                
+
             }
             else
             {
@@ -223,7 +248,7 @@ const int OurTime::operator-(const OurTime& t)
         }
         dayCntL += this->day;
         dayCntR += t.day;
-        
+
         period += (dayCntL - dayCntR - 1) * 60 * 24;
     }
     else if(this->year != t.year)//year is different
@@ -268,7 +293,7 @@ const int OurTime::operator-(const OurTime& t)
         }
         dayCntL += monthDays(this->month, this->year) - this->day;
         dayCntR += t.day;
-        
+
         period += (dayCntL + dayCntYear + dayCntR - 1) * 60 * 24;
     }
     return period;
@@ -278,21 +303,21 @@ const OurTime operator+(const OurTime& t, int minute)
 {
     OurTime sum(t);
     int timeTemp = 0;
-    
+
     timeTemp = sum.minute + minute;
     if(timeTemp < 60)
         sum.minute = timeTemp;
     else//hour is carried
     {
         sum.minute = timeTemp % 60;
-        
+
         timeTemp = timeTemp / 60 + sum.hour;
         if(timeTemp < 24)
             sum.hour = timeTemp;
         else//day is carried
         {
             sum.hour = timeTemp % 24;
-            
+
             timeTemp = timeTemp / 24;//number of days that is going to be added
             if(!sum.monthChanged(timeTemp))
                 sum.day += timeTemp;
