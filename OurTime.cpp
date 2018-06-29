@@ -10,7 +10,6 @@ OurTime::OurTime():year(0), month(0), day(0), hour(0), minute(0), timeStr(""){}
 OurTime::OurTime(string timeStr)
 {
     //string form : 201808291503
-
     this->timeStr = timeStr;
     this->year = stoi(timeStr.substr(0, 4));
     this->month = stoi(timeStr.substr(4, 2));
@@ -103,7 +102,6 @@ void OurTime::Current()
     this->day = timeinfo->tm_mday;
     this->hour = timeinfo->tm_hour;
     this->minute = timeinfo->tm_min;
-    this->timeStr = timeinfo->tm_year + (timeinfo->tm_mon+1) + timeinfo->tm_mday;
 }
 void OurTime::newDate(int addingDay)
 {
