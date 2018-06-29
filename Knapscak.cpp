@@ -19,7 +19,6 @@ int knapSack(int W, int wt[], int val[], int n)
     */
 	int i, w;
     int K[n + 1][W + 1] = {0};
-    string 
     for (i = 0; i <= n; i++)
 	{
         for (w = 0; w <= W; w++)
@@ -38,7 +37,7 @@ int knapSack(int W, int wt[], int val[], int n)
     /*
     Now I need to take out the chosen and leave the unchosen one out
     (1) whenever you take out one you should add it into the chosen string of name
-    (2) Or, you can simply return 
+    (2) Or, you can simply return
     */
     w = W;
     for (i = n; i > 0 && res > 0; i--)
@@ -53,7 +52,7 @@ int knapSack(int W, int wt[], int val[], int n)
         }
     }
 }
-
+/*
 int main()
 {
 	int n = 5,w =15;
@@ -67,3 +66,4 @@ int main()
     system("pause");
 	return 0;
 }
+*/

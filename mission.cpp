@@ -13,6 +13,8 @@ Mission::Mission(string name, string tagForGraph, OurTime startTime, OurTime end
                 :Event(name, tagForGraph, startTime, endTime, duration), index(index), totalCnt(totalCnt), tagForCategory(tagForCategory), priority(priority), deadline(deadline)
 {
 }
+
+
 double Mission::score() const
 {
     OurTime tem;

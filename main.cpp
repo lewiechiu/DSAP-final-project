@@ -140,6 +140,7 @@ int main()
 					string MissionName;
 					string Deadline;
 					string StartTime;
+					string category;
 					int priority;
 					int duration;
 					cout << "Please type mission Name" << endl;
@@ -151,7 +152,7 @@ int main()
                     cout << "DeadLine?" << endl;
 					cin >> Deadline;
 
-					duaration = Deadline
+
 
 					cout << "please type in priority\nwith least important:1 to utmost important:10" << endl;
 					cin >> priority;
@@ -162,7 +163,6 @@ int main()
 					cout << "category" << endl;
 					cin >> category;
 
-					Mission(MissionName,category,)
 					/*
 						Now that I can create a new flexible mission variable.
 						We need to gain the access of the Uncompleted mission list
