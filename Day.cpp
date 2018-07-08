@@ -1,10 +1,11 @@
 #include "Day.hpp"
+#include "timeNode.hpp"
 #include <iostream>
 #include <string>
 using namespace std;
 
-template<typename fixedEvent, typename mission>
-Day<fixedEvent, mission>::Day()
+
+Day::Day()
 {
     current = 0;
     duration = 0;
@@ -12,11 +13,11 @@ Day<fixedEvent, mission>::Day()
         timeLine_type[i] = 0;
 }
 
-template<typename fixedEvent, typename mission>
-int Day<fixedEvent, mission>::getDuration()
+
+int Day::getDuration()
 {
     duration = 0;
-    
+
     for(int i = 0 ; i < TIME_SIZE ; i++)//find where the period starts
     {
         if(timeLine_type[i]==0)
@@ -36,12 +37,12 @@ int Day<fixedEvent, mission>::getDuration()
             timeLine_type[i] = 3;
         }
     }
-    
+
         return duration;
 }
 
-template<typename fixedEvent, typename mission>
-void Day<fixedEvent, mission>::fillTime(Mission* missionToAllocate[], int numberOfMissions)
+
+void Day::fillTime(Mission* missionToAllocate[], int numberOfMissions)
 {
     if(numberOfMissions == 0)
     {
@@ -97,8 +98,7 @@ void Day<fixedEvent, mission>::fillTime(Mission* missionToAllocate[], int number
     }
 }
 
-template<typename fixedEvent, typename mission>
-void Day<fixedEvent, mission>::deleteNonFixedEvent()//in order to reschedule
+void Day::deleteNonFixedEvent()//in order to reschedule
 {
     for(int i = 0 ; i < TIME_SIZE ; i++)
     {
@@ -116,8 +116,8 @@ void Day<fixedEvent, mission>::deleteNonFixedEvent()//in order to reschedule
     }
 }
 
-template<typename fixedEvent, typename mission>
-void Day<fixedEvent, mission>::addFixedEvent(FixedEvent* fixedEventToAdd)
+
+void Day::addFixedEvent(FixedEvent* fixedEventToAdd)
 {
     bool available = 1;
     int start = fixedEventToAdd->getStartTime().getHour()*60+fixedEventToAdd->getStartTime().getMinute();
@@ -128,19 +128,20 @@ void Day<fixedEvent, mission>::addFixedEvent(FixedEvent* fixedEventToAdd)
         cout << "Error:the period has been occupied" <<endl;
     else
     {
-        deleteNonFixedEvent();//ä¹‹å‰æŽ’éŽçš„mission isScheduledè®Šæˆ0 knapsacké‡æ–°ä¸Ÿ
+
+        deleteNonFixedEvent();//¤§«e±Æ¹Lªºmission isScheduledÅÜ¦¨0 knapsack­«·s¥á
         for(int i = start ; i < start+fixedEventToAdd->getDuration() ; i++)
         {
             timeLine_type[i] = 2;
             timeLine_fixedEvent[i].setStatus(2);
             timeLine_fixedEvent[i].setOccurrence(fixedEventToAdd);
         }
-        
+
     }
 }
 
-template<typename fixedEvent, typename mission>
-void Day<fixedEvent, mission>::setStatus(int minute, int theStatus)
+
+void Day::setStatus(int minute, int theStatus)
 {
     if(timeLine_type[minute] == 1)
         timeLine_mission[minute].setStatus(theStatus);
@@ -148,38 +149,38 @@ void Day<fixedEvent, mission>::setStatus(int minute, int theStatus)
         timeLine_fixedEvent[minute].setStatus(theStatus);
 }
 
-template<typename fixedEvent, typename mission>
-void Day<fixedEvent, mission>::setOccurrence_event(int minute, fixedEvent *anOccurrence)
+
+void Day::setOccurrence_event(int minute, FixedEvent *anOccurrence)
 {
     timeLine_fixedEvent[minute].setOccurrence(anOccurrence);
 }
 
-template<typename fixedEvent, typename mission>
-void Day<fixedEvent, mission>::setOccurrence_mission(int minute, mission *anOccurrence)
+
+void Day::setOccurrence_mission(int minute, Mission *anOccurrence)
 {
     timeLine_mission[minute].setOccurrence(anOccurrence);
 }
 
-template<typename fixedEvent, typename mission>
-int Day<fixedEvent, mission>::getStatus(int minute)
+
+int Day::getStatus(int minute)
 {
     return timeLine_type[minute];
 }
 
-template<typename fixedEvent, typename mission>
-fixedEvent* Day<fixedEvent, mission>::getOccurrence_event(int minute)
+
+FixedEvent* Day::getOccurrence_event(int minute)
 {
     return timeLine_fixedEvent[minute].getOccurrence();
 }
 
-template<typename fixedEvent, typename mission>
-mission* Day<fixedEvent, mission>::getOccurrence_mission(int minute)
+
+Mission* Day::getOccurrence_mission(int minute)
 {
     return timeLine_mission[minute].getOccurrence();
 }
 
-template<typename fixedEvent, typename mission>
-void Day<fixedEvent, mission>::deleteSpecificEvent(string str)
+
+void Day::deleteSpecificEvent(string str)
 {
     for(int i = 0 ; i < TIME_SIZE ; i++)
     {
@@ -199,7 +200,6 @@ void Day<fixedEvent, mission>::deleteSpecificEvent(string str)
         }
     }
 }
-
 
 
 

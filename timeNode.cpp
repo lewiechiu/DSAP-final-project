@@ -1,4 +1,6 @@
 #include "timeNode.hpp"
+#include "Mission.h"
+#include "FixedEvent.h"
 #include <iostream>
 using namespace std;
 
@@ -37,11 +39,14 @@ Itemtype* timeNode<Itemtype>::getOccurrence()
     return occurrence;
 }
 
+
 template<class Itemtype>
 void timeNode<Itemtype>::setEventIsScheduled(bool a)
 {
     occurrence->setIsSchedule(a);
 }
+template class timeNode<FixedEvent>;
+template class timeNode<Mission>;
 
 
 
