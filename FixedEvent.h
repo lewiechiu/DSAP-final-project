@@ -16,5 +16,6 @@ public:
     FixedEvent(string name, string tagForGraph, OurTime startTime, OurTime endTime, int duration);
     OurTime getStartTime();
     int getDuration() const;
+    bool operator==(const FixedEvent& FE)const;
 };
 #endif //FIXED_EVENT

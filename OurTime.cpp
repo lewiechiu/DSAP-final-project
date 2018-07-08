@@ -85,6 +85,11 @@ int OurTime::getMinute()
 {
     return this->minute;
 }
+
+string OurTime::getTimeStr()const
+{
+    return this->timeStr;
+}
 bool OurTime::monthChanged(int addingDay)
 {
     if((monthDays(this->month, this->year) - this->day) < addingDay)

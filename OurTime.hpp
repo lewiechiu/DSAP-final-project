@@ -39,6 +39,7 @@ public:
     int getDay();
     int getHour();
     int getMinute();
+    string getTimeStr()const;
 
     bool monthChanged(int addingDay);
     void newDate(int addingDay);

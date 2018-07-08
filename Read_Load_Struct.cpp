@@ -1,4 +1,11 @@
 #include <sstream>
+#include <fstream>
+#include "LinkedBag.h"
+#include "OurTime.hpp"
+#include "event.h"
+#include "FixedEvent.h"
+#include "Mission.h"
+using namespace std;
 struct FixedEventBag
 {
     LinkedBag<Event*> Bag;
@@ -14,13 +21,13 @@ struct FixedEventBag
 //    void clearAll();
 //          delete all the pointer between Nodes
 //    int get_itemCount()const;
-    
+
     void SaveFile(const string& FileName)
     {
         ofstream file;// declaration of file pointer named infile
         file.open(FileName, ios::out);// opens file named "filename" for input
         string Write="";
-        
+
         //fixedEventName,category,startT.getTimeStr(),endT.getTimeStr(),to_string(duration)/n
         for(int i=0; i<Bag.get_itemCount(); i++)
         {
@@ -38,7 +45,7 @@ struct FixedEventBag
         file<<Write;
         file.close();//closes file
     }
-    
+
     void LoadFile(const string& FileName)
     {
         ifstream file;// declaration of file pointer named infile
@@ -53,25 +60,25 @@ struct FixedEventBag
                 size_t comma =  Read.find(",");
                 name = Read.substr(0,comma);
                 Read = Read.substr(comma+1);
-                
+
                 comma =  Read.find(",");
                 tagForGraph = Read.substr(0,comma);
                 Read = Read.substr(comma+1);
-                
+
                 comma =  Read.find(",");
                 starttime = Read.substr(0,comma);
                 Read = Read.substr(comma+1);
-                
+
                 comma =  Read.find(",");
                 endtime = Read.substr(0,comma);
                 Read = Read.substr(comma+1);
-                
+
                 comma =  Read.find("\n");
                 duration = Read.substr(0,comma);
                 Read = Read.substr(comma+1);
                 OurTime StartT(starttime);
                 OurTime EndT(endtime);
-                
+
                 int duration_int=0;
                 stringstream ss(duration);
                 ss>>duration_int;
@@ -98,13 +105,13 @@ struct MissionBag
     //    void clearAll();
     //          delete all the pointer between Nodes
     //    int get_itemCount()const;
-    
+
     void SaveFile(const string& FileName)
     {
         ofstream file;// declaration of file pointer named infile
         file.open(FileName, ios::out);// opens file named "filename" for input
         string Write="";
-        
+
         //MissionName,category,startT.getTimeStr(),endT.getTimeStr(),to_string(duration), isdone, index, totalCnt, tagCategort, priority, deadline, isSchedule
         for(int i=0; i<Bag.get_itemCount(); i++)
         {
@@ -138,18 +145,18 @@ struct MissionBag
         file<<Write;
         file.close();//closes file
     }
-    
+
     void LoadFile(const string& FileName, bool ISDONE)
     {
         ifstream file;// declaration of file pointer named infile
         file.open(FileName, ios::in);// opens file named "filename" for input
         string Read="";
-        Event* newFE;
-        string name="",tagForGraph="", starttime="", endtime="", duration="", isDone="", index="", totalCnt="", tagCategory="", priroty="", deadline="", isSchedule="";
-        
+
+        string name="",tagForGraph="", starttime="", endtime="", duration="", isDone="", index="", totalCnt="", tagCategory="", priority="", deadline="", isSchedule="";
+
 //        File format
 //        MissionName,category,startT.getTimeStr(),endT.getTimeStr(),to_string(duration), isdone, index, totalCnt, tagCategort, priority, deadline, isSchedule\n
-        
+
 
         if(file.is_open())
             while(getline(file, Read))
@@ -157,51 +164,51 @@ struct MissionBag
                 size_t comma =  Read.find(",");
                 name = Read.substr(0,comma);
                 Read = Read.substr(comma+1);
-                
+
                 comma =  Read.find(",");
                 tagForGraph = Read.substr(0,comma);
                 Read = Read.substr(comma+1);
-                
+
                 comma =  Read.find(",");
                 starttime = Read.substr(0,comma);
                 Read = Read.substr(comma+1);
-                
+
                 comma =  Read.find(",");
                 endtime = Read.substr(0,comma);
                 Read = Read.substr(comma+1);
-                
+
                 comma =  Read.find("\n");
                 duration = Read.substr(0,comma);
                 Read = Read.substr(comma+1);
-                
+
                 comma =  Read.find("\n");
                 isDone = Read.substr(0,comma);
                 Read = Read.substr(comma+1);
-                
+
                 comma =  Read.find("\n");
                 index = Read.substr(0,comma);
                 Read = Read.substr(comma+1);
-                
+
                 comma =  Read.find("\n");
                 totalCnt = Read.substr(0,comma);
                 Read = Read.substr(comma+1);
-                
+
                 comma =  Read.find("\n");
                 tagCategory = Read.substr(0,comma);
                 Read = Read.substr(comma+1);
-                
+
                 comma =  Read.find("\n");
-                priroty = Read.substr(0,comma);
+                priority = Read.substr(0,comma);
                 Read = Read.substr(comma+1);
-                
+
                 comma =  Read.find("\n");
                 deadline = Read.substr(0,comma);
                 Read = Read.substr(comma+1);
-                
+
                 comma =  Read.find("\n");
                 isSchedule = Read.substr(0,comma);
                 Read = Read.substr(comma+1);
-                
+
                 bool isDone_b;
                 bool isScheduled_b;
                 if(isDone=="1")
@@ -215,9 +222,9 @@ struct MissionBag
                 OurTime StartT(starttime);
                 OurTime EndT(endtime);
                 OurTime DeadT(deadline);
-                
-                int duration_int=0,index_int=0,totalCnt_int=0, priroty_int=0;
-                
+
+                int duration_int=0,index_int=0,totalCnt_int=0, priority_int=0;
+
                 stringstream ss(duration);
                 ss>>duration_int;
                 ss.clear();
@@ -227,15 +234,17 @@ struct MissionBag
                 ss.str(totalCnt);
                 ss>>totalCnt_int;
                 ss.clear();
-                ss.str(priroty);
-                ss>>priroty_int;
-                newFE = new Mission(name, tagForGraph, StartT, EndT, duration_int, index_int, totalCnt_int, tagCategory, priroty_int, DeadT, isDone_b, isScheduled_b);
-                
+                ss.str(priority);
+                ss>>priority_int;
+                Event* newM;
+                newM = new Mission(name, tagForGraph, StartT, EndT, duration_int, index_int, totalCnt_int, tagCategory,
+                                   priority_int, DeadT, isDone_b, isScheduled_b);
+
                 //you can pick which kind of bag you want either is a isDone one or a isNotDone one
                 if(ISDONE==isDone_b)
-                    this->Bag.add(newFE);
+                    this->Bag.add(newM);
             }
-        
+
         file.close();//closes file
     }
 };

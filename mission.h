@@ -19,12 +19,21 @@ public:
     Mission();
     Mission(string name, string tagForGraph, OurTime startTime, OurTime endTime, int duration,
             int index, int totalCnt, string tagForCategory, int priority, OurTime deadline);
+    Mission(string name,string tagForGraph,OurTime StartT,OurTime EndT,int duration_int,int index_int,
+            int totalCnt_int,string tagCategory,int priroty_int,OurTime DeadT,bool isDone_b,bool isScheduled_b);
     bool operator<(Mission toCompare) const;
     bool operator==(Mission toCompare) const;
     bool operator>(Mission toCompare) const;
     bool operator>=(Mission toCompare) const;
     bool operator<=(Mission toCompare) const;
     int getDuration() const;
+    bool GetMisDone()const;
+    string GetMindex()const;
+    string GetMtotalCnt()const;
+    string GetMpriority()const;
+    string GetMdeadline()const;
+    bool GetMisScheduled()const;
+    string GetMtagCategory()const;
 };
 
 #endif // MISSION

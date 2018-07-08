@@ -4,31 +4,20 @@
 #include "OurTime.hpp"
 #include "mission.h"
 #include "fixedevent.h"
+
 #include <SFML/Graphics.hpp>
+#include "LinkedBag.h"
+#include "Knapscak.h"
+#include <fstream>
+#include <math.h>
 using namespace std;
+
+
+
 
 
 int main()
 {
-
-    sf::RenderWindow win(sf::VideoMode(200, 200), "SFML Test");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
-
-    while (win.isOpen())
-    {
-        sf::Event event;
-        while (win.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-            {
-                win.close();
-            }
-        }
-        win.clear();
-        win.draw(shape);
-        win.display();
-    }
 
 	cout << "press 1 for showing the view eventlist" << endl;
 
@@ -36,6 +25,8 @@ int main()
 
 	cout << "press  for exit" << endl;
 	int oper;
+	LinkedBag<Mission> MBag;
+	LinkedBag<FixedEvent> FEBag;
 	//201804231934
 /*
 
@@ -127,7 +118,8 @@ int main()
 					cin >> category;
 					OurTime endT(endTime);
 					duration = endT - startT;
-					FixedEvent one(fixedEventName,category,startT,endT,duration);
+					FixedEvent *one = new FixedEvent(fixedEventName,category,startT,endT,duration);
+
 					/*
 					Now we would have a fixed event
 					We need just passing the event into the Day class
@@ -142,28 +134,33 @@ int main()
 					string StartTime;
 					string category;
 					int priority;
-					int duration;
+					double duration;
+					double thresh;
 					cout << "Please type mission Name" << endl;
 					cin >> MissionName;
 					//	total time to complete the mission
-					cout << "Please type startTime in the form of: \n201806301125 " << endl;
-					cin >> StartTime;
+					cout << "Enter how long will you need to finish it " << endl;
+					cin >> duration;
+
+					cout << "Maximum continuous hour" << endl;
+					cin >> thresh;
 
                     cout << "DeadLine?" << endl;
 					cin >> Deadline;
 
-
-
+					double parts = ceil(duration/thresh);
 					cout << "please type in priority\nwith least important:1 to utmost important:10" << endl;
 					cin >> priority;
-
-
-
 
 					cout << "category" << endl;
 					cin >> category;
 
-					/*
+                    /*
+                        When I finish creating a or multiple series of mission
+                        I need to put it into the mission bag
+                        after that give it to knapsack and then it would return to me an array
+                        after that
+
 						Now that I can create a new flexible mission variable.
 						We need to gain the access of the Uncompleted mission list
 						We pass the list into

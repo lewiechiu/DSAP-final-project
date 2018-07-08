@@ -1,13 +1,22 @@
-#include <iostream>
-using namespace std;
+#include "Knapscak.h"
 
 int max(int a, int b) { return (a > b)? a : b; }
-int knapSack(int W, int wt[], int val[], int n)
+
+template<typename Type>
+Mission* knapScak(LinkedBag<Type> &m)
 {
 
+    int cnt = m.get_itemCount();
 
 
-
+    int W,n;
+    int *wt = new int[cnt];
+    int *val = new int [cnt];
+    for(int i=0;i<cnt;i++)
+    {
+        wt[i] = m[i]->getDuration();
+        val[i] = m[i]->score();
+    }
     /*
 
 
@@ -33,6 +42,7 @@ int knapSack(int W, int wt[], int val[], int n)
     }
 
     int res = K[n][W];
+
     cout << res << endl;
     /*
     Now I need to take out the chosen and leave the unchosen one out
