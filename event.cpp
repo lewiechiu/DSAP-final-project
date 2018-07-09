@@ -55,3 +55,27 @@ bool Event::GetMisScheduled()const
 string Event::GetMtagCategory()const
 {
 }
+void Event::setStartTime(OurTime& ST)
+{
+    this->startTime = ST;
+}
+void Event::setEndTime(OurTime& ET)
+{
+    this->endTime = ET;
+}
+void Event::setIsSchedule(bool isS)
+{
+}
+double Event::score()const
+{
+}
+OurTime Event::getStartTime()const
+{
+    return this->startTime;
+}
+int Event::getDuration()const
+{
+    return this->duration;
+}
+
+
