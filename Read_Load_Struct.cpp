@@ -1,3 +1,6 @@
+#ifndef READ_LOAD_STRUCT_CPP
+#define READ_LOAD_STRUCT_CPP
+
 #include <sstream>
 #include <fstream>
 #include "LinkedBag.h"
@@ -248,3 +251,5 @@ struct MissionBag
         file.close();//closes file
     }
 };
+
+#endif
