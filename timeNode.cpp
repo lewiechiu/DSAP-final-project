@@ -1,11 +1,11 @@
 #include "timeNode.hpp"
+#include "event.h"
 #include "Mission.h"
 #include "FixedEvent.h"
 #include <iostream>
 using namespace std;
 
-template<class Itemtype>
-timeNode<Itemtype>::timeNode():status(0), occurrence(nullptr){}
+timeNode::timeNode():status(0), occurrence(nullptr){}
 
 /*not useful when creating an array of timeNode
 template<class Itemtype>
@@ -15,38 +15,37 @@ template<class Itemtype>
 timeNode<Itemtype>::timeNode(int theStatus, Itemtype *anOccurrence):status(theStatus), occurrence(anOccurrence){};
  */
 
-template<class Itemtype>
-void timeNode<Itemtype>::setStatus(int theStatus)
+
+void timeNode::setStatus(int theStatus)
 {
     status = theStatus;
 }
 
-template<class Itemtype>
-void timeNode<Itemtype>::setOccurrence(Itemtype* anOccurrence)
+
+void timeNode::setOccurrence(Event* anOccurrence)
 {
     occurrence = anOccurrence;
 }
 
-template<class Itemtype>
-int timeNode<Itemtype>::getStatus()
+
+int timeNode::getStatus()
 {
     return status;
 }
 
-template<class Itemtype>
-Itemtype* timeNode<Itemtype>::getOccurrence()
+
+Event* timeNode::getOccurrence()
 {
     return occurrence;
 }
 
 
-template<class Itemtype>
-void timeNode<Itemtype>::setEventIsScheduled(bool a)
+
+void timeNode::setEventIsScheduled(bool a)
 {
     occurrence->setIsSchedule(a);
 }
-template class timeNode<FixedEvent>;
-template class timeNode<Mission>;
+
 
 
 
