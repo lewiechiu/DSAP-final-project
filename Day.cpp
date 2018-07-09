@@ -13,6 +13,14 @@ Day::Day()
         timeLine_type[i] = 0;
 }
 
+Day::Day(OurTime& TD)
+{
+    current = 0;
+    duration = 0;
+    for(int i = 0 ; i < TIME_SIZE ; i++)
+        timeLine_type[i] = 0;
+    this->today = TD;
+}
 
 int Day::getDuration()
 {
@@ -23,7 +31,6 @@ int Day::getDuration()
         if(timeLine_type[i]==0)
         {
             current = i;
-            duration = 1;
             break;
         }
     }
@@ -64,8 +71,8 @@ void Day::fillTime(Mission* missionToAllocate[], int numberOfMissions)
         {
             if(missionDurationLeft > 0)
             {
-                timeLine_mission[j].setOccurrence(missionToAllocate[i]);
-                timeLine_mission[j].setStatus(1);
+                timeLine[j].setOccurrence(missionToAllocate[i]);
+                timeLine[j].setStatus(1);
                 timeLine_type[j] = 1;
                 missionDurationLeft--;
 
@@ -83,8 +90,8 @@ void Day::fillTime(Mission* missionToAllocate[], int numberOfMissions)
                     endTime.setDay(today.getDay());
                     endTime.setHour((current+restTime+missionToAllocate[i]->getDuration())/60);
                     endTime.setMinute((current+restTime+missionToAllocate[i]->getDuration())%60);
-                    timeLine_mission[j].getOccurrence()->setStartTime(startTime);
-                    timeLine_mission[j].getOccurrence()->setEndTime(endTime);
+                    timeLine[j].getOccurrence()->setStartTime(startTime);
+                    timeLine[j].getOccurrence()->setEndTime(endTime);
                 }
                 count++;
                 current++;
@@ -102,15 +109,15 @@ void Day::deleteNonFixedEvent()//in order to reschedule
 {
     for(int i = 0 ; i < TIME_SIZE ; i++)
     {
-        if(timeLine_type[i]!=2)//if status != fixedEvent
+        if((timeLine_type[i]!=2)&&(timeLine_type[i]!=0))//if status != fixedEvent
         {
             OurTime resetTime("000000000000");
-            timeLine_mission[i].getOccurrence()->setStartTime(resetTime);
-            timeLine_mission[i].getOccurrence()->setEndTime(resetTime);
+            timeLine[i].getOccurrence()->setStartTime(resetTime);
+            timeLine[i].getOccurrence()->setEndTime(resetTime);
             timeLine_type[i] = 0;//set status to not allocated
-            timeLine_mission[i].setStatus(0);
-            timeLine_mission[i].setOccurrence(nullptr);//set occurrence pointer to null
-            timeLine_mission[i].setEventIsScheduled(0);
+            timeLine[i].setStatus(0);
+            timeLine[i].setOccurrence(nullptr);//set occurrence pointer to null
+            timeLine[i].setEventIsScheduled(0);
             current = 0;
         }
     }
@@ -120,7 +127,9 @@ void Day::deleteNonFixedEvent()//in order to reschedule
 void Day::addFixedEvent(FixedEvent* fixedEventToAdd)
 {
     bool available = 1;
+
     int start = fixedEventToAdd->getStartTime().getHour()*60+fixedEventToAdd->getStartTime().getMinute();
+
     for(int i = start ; i < start+fixedEventToAdd->getDuration() ; i++)
         if(timeLine_type[i] == 2)
             available = false;
@@ -128,13 +137,13 @@ void Day::addFixedEvent(FixedEvent* fixedEventToAdd)
         cout << "Error:the period has been occupied" <<endl;
     else
     {
-
+        cout << fixedEventToAdd->getDuration() << endl;
         deleteNonFixedEvent();//之前排過的mission isScheduled變成0 knapsack重新丟
         for(int i = start ; i < start+fixedEventToAdd->getDuration() ; i++)
         {
             timeLine_type[i] = 2;
-            timeLine_fixedEvent[i].setStatus(2);
-            timeLine_fixedEvent[i].setOccurrence(fixedEventToAdd);
+            timeLine[i].setStatus(2);
+            timeLine[i].setOccurrence(fixedEventToAdd);
         }
 
     }
@@ -144,21 +153,21 @@ void Day::addFixedEvent(FixedEvent* fixedEventToAdd)
 void Day::setStatus(int minute, int theStatus)
 {
     if(timeLine_type[minute] == 1)
-        timeLine_mission[minute].setStatus(theStatus);
+        timeLine[minute].setStatus(theStatus);
     else if(timeLine_type[minute] == 2)
-        timeLine_fixedEvent[minute].setStatus(theStatus);
+        timeLine[minute].setStatus(theStatus);
 }
 
 
 void Day::setOccurrence_event(int minute, FixedEvent *anOccurrence)
 {
-    timeLine_fixedEvent[minute].setOccurrence(anOccurrence);
+    timeLine[minute].setOccurrence(anOccurrence);
 }
 
 
 void Day::setOccurrence_mission(int minute, Mission *anOccurrence)
 {
-    timeLine_mission[minute].setOccurrence(anOccurrence);
+    timeLine[minute].setOccurrence(anOccurrence);
 }
 
 
@@ -168,35 +177,38 @@ int Day::getStatus(int minute)
 }
 
 
-FixedEvent* Day::getOccurrence_event(int minute)
+Event* Day::getOccurrence_event(int minute)
 {
-    return timeLine_fixedEvent[minute].getOccurrence();
+    return timeLine[minute].getOccurrence();
 }
-
-
-Mission* Day::getOccurrence_mission(int minute)
-{
-    return timeLine_mission[minute].getOccurrence();
-}
-
 
 void Day::deleteSpecificEvent(string str)
 {
     for(int i = 0 ; i < TIME_SIZE ; i++)
     {
-        if(timeLine_fixedEvent[i].getOccurrence()->getName() == str)
+        if(timeLine[i].getOccurrence()->GetName() == str)
         {
             timeLine_type[i] = 0;//set status to not allocated
-            timeLine_fixedEvent[i].setStatus(0);
-            timeLine_fixedEvent[i].setOccurrence(nullptr);//set occurrence pointer to null
+            timeLine[i].setStatus(0);
+            timeLine[i].setOccurrence(nullptr);//set occurrence pointer to null
             //how to delete event in the list?
         }
-        else if(timeLine_mission[i].getOccurrence()->getName() == str)
+        else if(timeLine[i].getOccurrence()->GetName() == str)
         {
             timeLine_type[i] = 0;//set status to not allocated
-            timeLine_mission[i].setStatus(0);
-            timeLine_mission[i].setOccurrence(nullptr);//set occurrence pointer to null
+            timeLine[i].setStatus(0);
+            timeLine[i].setOccurrence(nullptr);//set occurrence pointer to null
             //how to delete mission in the list?
+        }
+    }
+}
+void Day::showToday()
+{
+    for(int i=0;i<TIME_SIZE;i++)
+    {
+        if(timeLine[i].getOccurrence() != nullptr)
+        {
+            cout << timeLine[i].getOccurrence()->GetName() << "  " << i << endl;
         }
     }
 }
