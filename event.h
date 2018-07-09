@@ -30,20 +30,14 @@ public:
     virtual string GetMdeadline()const;
     virtual bool GetMisScheduled()const;
     virtual string GetMtagCategory()const;
+    virtual void setStartTime(OurTime& ST);
+    virtual void setEndTime(OurTime& ET);
+    virtual void setIsSchedule(bool isS);
+    virtual double score()const;
+    OurTime getStartTime()const;
+    int getDuration()const;
+
 
 };
 #endif //EVENT
 
-
-
-/*
-Write+=Bag[i]->GetName();
-            Write+=",";
-            Write+=Bag[i]->GettagForGraph();
-            Write+=",";
-            Write+=Bag[i]->GetstartTime();
-            Write+=",";
-            Write+=Bag[i]->GetendTime();
-            Write+=",";
-            Write+=Bag[i]->GetDuration();
-*/
