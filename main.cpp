@@ -5,7 +5,7 @@
 #include "mission.h"
 #include "fixedevent.h"
 
-//#include <SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include "LinkedBag.h"
 #include "Knapscak.h"
 #include <fstream>
@@ -107,10 +107,10 @@ int main()
     {
 
 	cout << "press 1 for showing the view eventlist" << endl;
-
 	cout << "press 4 for showing the dash board" << endl;
 
 	cout << "press  for exit" << endl;
+	oper = 0;
     cin >> oper;
 	//201804231934
 /*
@@ -190,17 +190,19 @@ int main()
 					int duration;
 
 					cout << "Please type fixedEventName" << endl;
-					cin >> fixedEventName;
+					getline(cin,fixedEventName);
 
 					cout << "Please type startTime in the form of: \n201806301125 " << endl;
-					cin >> startTime;
+					getline(cin,startTime);
+
 					OurTime startT(startTime);
 
 					cout << "end Time please keep this event in the same day" << endl;
-					cin >> endTime;
+					getline(cin,endTime);
 
 					cout << "category" << endl;
-					cin >> category;
+					getline(cin,category);
+
 					OurTime endT(endTime);
 					duration = endT - startT;
 					FixedEvent *one = new FixedEvent(fixedEventName,category,startT,endT,duration);
@@ -239,16 +241,18 @@ int main()
 					double duration;
 					double thresh;
 					cout << "Please type mission Name" << endl;
-					cin >> MissionName;
+					getline(cin,MissionName);
 					//	total time to complete the mission
 					cout << "Enter how long will you need to finish it (in minute) " << endl;
 					cin >> duration;
+
 
 					cout << "Maximum continuous minutes" << endl;
 					cin >> thresh;
 
                     cout << "DeadLine?" << endl;
-					cin >> Deadline;
+					getline(cin,Deadline);
+
 					OurTime ddl(Deadline);
 
 					double parts = ceil(duration/thresh);
@@ -256,10 +260,11 @@ int main()
 					cin >> priority;
 
                     cout << "which type do you want this to graph???" << endl;
-                    cin >> graph;
+                    getline(cin,graph);
 
 					cout << "category" << endl;
-					cin >> category;
+					getline(cin,category);
+
 					for(int i=0;i<parts;i++)
                     {
                         Mission *a;
@@ -424,7 +429,7 @@ int main()
                     }
                 }
                 string missionName;
-                cin >> missionName;
+                getline(cin,missionName);
                 cout << "enter which part of the mission" << endl;
                 int parr = 0;
                 cin >> parr;
@@ -468,7 +473,7 @@ int main()
                 {
                     cout << "enter mission name within that day" << endl;
                     string missionName;
-                    cin >> missionName;
+                    getline(cin,missionName);
                     cout << "enter which part of the mission" << endl;
                     int parr = 0;
                     cin >> parr;
@@ -479,7 +484,7 @@ int main()
                 {
                     cout << "enter Fixed event name within that day" << endl;
                     string FixedName;
-                    cin >> FixedName;
+                    getline(cin,FixedName);
                     year2018[weekN][dayN]->deleteSpecificEvent(FixedName,-1,false);
                     FEBag.Bag.remove(FixedName);
                     FEBag.SaveFile(FixedLocation);
