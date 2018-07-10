@@ -2,12 +2,11 @@
 #define KNAPSCAK_H_INCLUDED
 
 #include "mission.h"
-#include "LinkedBag.h"
+#include "Read_Load_Struct.cpp"
 using namespace std;
 
 int max(int a, int b);
-template<typename Type>
-Mission* knapScak(LinkedBag<Type> &m);
+MissionBag* KnapSack(MissionBag &m,int weight);
 
 
 #endif // KNAPSCAK_H_INCLUDED

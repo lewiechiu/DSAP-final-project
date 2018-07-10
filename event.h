@@ -36,6 +36,7 @@ public:
     virtual double score()const;
     OurTime getStartTime()const;
     int getDuration()const;
+    void setIsDone(bool isD);
 
 
 };

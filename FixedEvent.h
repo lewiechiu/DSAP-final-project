@@ -1,7 +1,7 @@
 
 
 #ifndef FIXED_EVENT
-#define FIXED_EVENY
+#define FIXED_EVENT
 
 #include <string>
 #include "event.h"

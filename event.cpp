@@ -77,5 +77,9 @@ int Event::getDuration()const
 {
     return this->duration;
 }
+void Event::setIsDone(bool isD)
+{
+    this->isDone = isD;
+}
 
 

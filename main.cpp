@@ -10,6 +10,12 @@
 #include "Knapscak.h"
 #include <fstream>
 #include <math.h>
+#include "Read_Load_Struct.cpp"
+#include "Day.hpp"
+
+
+#define weeks 10
+#define aweek 7
 using namespace std;
 
 
@@ -18,15 +24,94 @@ using namespace std;
 
 int main()
 {
+    int oper;
+	FixedEventBag FEBag;
+	MissionBag MBag,MFBag;
+	MissionBag Done;
+	OurTime today;
+    OurTime start("201807080000");
+	today.Current();
+    today.setHour(0);
+	today.setMinute(0);
+    Day *year2018[weeks][aweek];
+    Day *week[7];
+
+
+    string MissionLocation = "Mission.txt";
+    string MissionFinishedLocation = "MF.txt";
+    string FixedLocation = "Fixed.txt";
+    MBag.LoadFile(MissionLocation,false);
+    MFBag.LoadFile(MissionFinishedLocation,true);
+    FEBag.LoadFile(FixedLocation);
+
+    for(int i=0;i<weeks;i++)
+    {
+        for(int j=0;j<aweek;j++)
+        {
+            year2018[i][j] = new Day(start);
+            start = start + 1440;
+        }
+    }
+    for(int i=0;i<aweek;i++)
+    {
+        week[i] = new Day(today);
+        today = today +1440;
+    }
+    cout << "done initializing year2018" << endl;
+    cout << "going into adding FE into year2018" << endl;
+    for(int i=0;i<weeks;i++)
+    {
+        for(int j=0;j<aweek;j++)
+        {
+            for(int k=0;k<FEBag.Bag.get_itemCount();k++)
+            {
+                string FEtime = FEBag.Bag[k]->GetstartTime().substr(0,8);
+                string cur = year2018[i][j]->getToday().substr(0,8);
+                if(FEtime==cur)
+                    year2018[i][j]->addFixedEvent(FEBag.Bag[k]);
+                else
+                    continue;
+            }
+            year2018[i][j]->showToday();
+        }
+    }
+    cout << "finish adding FE into year2018" << endl;
+    cout << "start adding mission into year2018" << endl;
+    for(int i=0;i<weeks;i++)
+    {
+        for(int j=0;j<aweek;j++)
+        {
+            for(int k=0;k<MBag.Bag.get_itemCount();k++)
+            {
+                string Mtime = MBag.Bag[k]->GetstartTime().substr(0,8);
+                string cur = year2018[i][j]->getToday().substr(0,8);
+                if(Mtime==cur)
+                    year2018[i][j]->RestoreMission(MBag.Bag[k]);
+                else
+                    continue;
+            }
+            year2018[i][j]->showToday();
+        }
+    }
+    cout << "finish adding Mission into year2018" << endl;
+    for(int i=0;i<FEBag.Bag.get_itemCount();i++)
+    {
+        week[0]->addFixedEvent(FEBag.Bag[i]);
+    }
+    for(int i=0;i<MBag.Bag.get_itemCount();i++)
+    {
+        week[0]->RestoreMission(MBag.Bag[i]);
+    }
+
+    while(1)
+    {
 
 	cout << "press 1 for showing the view eventlist" << endl;
 
 	cout << "press 4 for showing the dash board" << endl;
 
 	cout << "press  for exit" << endl;
-	int oper;
-	LinkedBag<Mission> MBag;
-	LinkedBag<FixedEvent> FEBag;
+    cin >> oper;
 	//201804231934
 /*
 
@@ -50,7 +135,7 @@ int main()
 
 
 
-	cin >> oper;
+
 
 //					view past calendar
 //						display the past calendar
@@ -73,13 +158,13 @@ int main()
 			... and so on
 		The schedule here should be able to display in chronological order
 		*/
-			cout << "press 3 for finishing an event" << endl;
-			cout << "press 5 for event deletion" << endl;
-			cout << "press 2 for adding a new event" << endl;
+            cout << "press 1 for viewing what happened today" << endl;
+            cout << "press 2 for adding a new Fixed event / Mission" << endl;
+			cout << "press 3 for finishing a mission" << endl;
+			cout << "press 4 for deleting a fixed event / Mission" << endl;
 			cin >> oper;
 			if(oper == 2)
 			{
-				Mission a;
 				/*
 				Rule of thumbs to keep in mind:
 				1. We do not determine whether the mission needs more time or not
@@ -111,7 +196,7 @@ int main()
 					cin >> startTime;
 					OurTime startT(startTime);
 
-					cout << "end Time" << endl;
+					cout << "end Time please keep this event in the same day" << endl;
 					cin >> endTime;
 
 					cout << "category" << endl;
@@ -119,6 +204,22 @@ int main()
 					OurTime endT(endTime);
 					duration = endT - startT;
 					FixedEvent *one = new FixedEvent(fixedEventName,category,startT,endT,duration);
+                    string moveto = startTime.substr(0,8);
+                    for(int i=0;i<weeks;i++)
+                    {
+                        for(int j=0;j<aweek;j++)
+                        {
+                            string TD = year2018[i][j]->getToday().substr(0,8);
+                            if(TD==moveto)
+                            {
+                                year2018[i][j]->addFixedEvent(one);
+                                cout << TD << endl;
+                            }
+
+                        }
+                    }
+                    FEBag.Bag.add(one);
+                    FEBag.SaveFile(FixedLocation);
 
 					/*
 					Now we would have a fixed event
@@ -133,27 +234,109 @@ int main()
 					string Deadline;
 					string StartTime;
 					string category;
+					string graph;
 					int priority;
 					double duration;
 					double thresh;
 					cout << "Please type mission Name" << endl;
 					cin >> MissionName;
 					//	total time to complete the mission
-					cout << "Enter how long will you need to finish it " << endl;
+					cout << "Enter how long will you need to finish it (in minute) " << endl;
 					cin >> duration;
 
-					cout << "Maximum continuous hour" << endl;
+					cout << "Maximum continuous minutes" << endl;
 					cin >> thresh;
 
                     cout << "DeadLine?" << endl;
 					cin >> Deadline;
+					OurTime ddl(Deadline);
 
 					double parts = ceil(duration/thresh);
 					cout << "please type in priority\nwith least important:1 to utmost important:10" << endl;
 					cin >> priority;
 
+                    cout << "which type do you want this to graph???" << endl;
+                    cin >> graph;
+
 					cout << "category" << endl;
 					cin >> category;
+					for(int i=0;i<parts;i++)
+                    {
+                        Mission *a;
+                        if(thresh < duration)
+                            a = new Mission(MissionName,graph,category,i,parts,priority,ddl,thresh);
+                        else
+                            a = new Mission(MissionName,graph,category,i,parts,priority,ddl,duration);
+                        MBag.Bag.add(a);
+                        duration -= thresh;
+                    }
+
+                    OurTime doodle;
+                    doodle.Current();
+                    string cur = doodle.getTimeStr().substr(0,8);
+                    int weekN,dayN;
+                    for(int i=0;i<weeks;i++)
+                    {
+                        for(int j=0;j<aweek;j++)
+                        {
+                            string hello = year2018[i][j]->getToday().substr(0,8);
+                            if(hello==cur)
+                            {
+                                weekN = i;
+                                dayN = j;
+                                break;
+                            }
+                            else
+                                continue;
+                        }
+                    }
+                    for(int i=weekN;i<weeks;i++)
+                    {
+                        for(int j=dayN;j<aweek;j++)
+                        {
+                            year2018[i][j]->deleteNonFixedEvent();
+                        }
+                    }
+
+                    for(int i=weekN;i<weeks;i++)
+                    {
+                        for(int j=dayN;j<aweek;j++)
+                        {
+                            cout << "i:" << i << " j: " << j << endl;
+                            year2018[i][j]->unCheck();
+                            while(1)
+                            {
+                                int freeTime = year2018[i][j]->getDuration();
+                                if(freeTime==-1)
+                                    break;
+//                                cout << "freetime: " << freeTime << endl;
+                                MissionBag* chosen = KnapSack(MBag,freeTime);
+                                cout <<"chosen item count: " <<  chosen->Bag.get_itemCount() << endl;
+                                Event** fillin = new Event*[chosen->Bag.get_itemCount()];
+                                for(int k=0;k<chosen->Bag.get_itemCount();k++)
+                                {
+                                    fillin[k] = chosen->Bag[k];
+                                }
+//                                cout << "start filling Time" << endl;
+                                year2018[i][j]->fillTime(fillin,chosen->Bag.get_itemCount());
+                                year2018[i][j]->showToday();
+//                                cout << "done filling Time" << endl;
+//                                cout << "start updating Time" << endl;
+                                for(int k=0;k<chosen->Bag.get_itemCount();k++)
+                                {
+                                    MBag.Bag.remove(fillin[k]->GetName(),stoi(fillin[k]->GetMindex()),stoi(fillin[k]->GetMtotalCnt()));
+                                    MBag.Bag.add(fillin[k]);
+                                }
+//                                cout << "done updating MBag" << endl;
+
+                            }
+                            year2018[i][j]->unCheck();
+                        }
+                    }
+
+                    MBag.Bag.printBag();
+
+                    MBag.SaveFile(MissionLocation);
 
                     /*
                         When I finish creating a or multiple series of mission
@@ -191,7 +374,117 @@ int main()
 							viewing style would be weekly
 						*/
 			}
-
+			else if (oper == 1)
+            {
+                OurTime sony;
+                sony.Current();
+                string cur = sony.getTimeStr().substr(0,8);
+                for(int i=0;i<weeks;i++)
+                {
+                    for(int j=0;j<aweek;j++)
+                    {
+                        string hello = year2018[i][j]->getToday().substr(0,8);
+                        if(hello==cur)
+                        {
+                            year2018[i][j]->showToday();
+                            break;
+                        }
+                        else
+                            continue;
+                    }
+                }
+            }
+            else if (oper == 3)
+            {
+                for(int i=0;i<weeks;i++)
+                {
+                    for(int j=0;j<aweek;j++)
+                        year2018[i][j]->showToday();
+                }
+                cout << "enter event date" << endl;
+                cout << "e.g. 20180720" << endl;
+                string date;
+                cin >> date;
+                cout << "enter mission name within that day" << endl;
+                int weekN,dayN;
+                for(int i=0;i<weeks;i++)
+                {
+                    for(int j=0;j<aweek;j++)
+                    {
+                        string hello = year2018[i][j]->getToday().substr(0,8);
+                        if(hello==date)
+                        {
+                            year2018[i][j]->showToday();
+                            weekN = i;
+                            dayN = j;
+                            break;
+                        }
+                        else
+                            continue;
+                    }
+                }
+                string missionName;
+                cin >> missionName;
+                cout << "enter which part of the mission" << endl;
+                int parr = 0;
+                cin >> parr;
+                year2018[weekN][dayN]->deleteSpecificEvent(missionName,parr,true);
+                MBag.SaveFile(MissionLocation);
+            }
+            else if (oper == 4)
+            {
+                for(int i=0;i<weeks;i++)
+                {
+                    for(int j=0;j<aweek;j++)
+                        year2018[i][j]->showToday();
+                }
+                cout << "enter event date" << endl;
+                cout << "e.g. 20180720" << endl;
+                string date;
+                cin >> date;
+                cout << "enter mission / Fixed event name within that day" << endl;
+                int weekN,dayN;
+                for(int i=0;i<weeks;i++)
+                {
+                    for(int j=0;j<aweek;j++)
+                    {
+                        string hello = year2018[i][j]->getToday().substr(0,8);
+                        if(hello==date)
+                        {
+                            year2018[i][j]->showToday();
+                            weekN = i;
+                            dayN = j;
+                            break;
+                        }
+                        else
+                            continue;
+                    }
+                }
+                cout << "press 1 to delete mission" << endl;
+                cout << "press 2 to delete Fixed Event" << endl;
+                int FEorM=0;
+                cin >> FEorM;
+                if(FEorM==1)
+                {
+                    cout << "enter mission name within that day" << endl;
+                    string missionName;
+                    cin >> missionName;
+                    cout << "enter which part of the mission" << endl;
+                    int parr = 0;
+                    cin >> parr;
+                    year2018[weekN][dayN]->deleteSpecificEvent(missionName,parr,false);
+                    MBag.SaveFile(MissionLocation);
+                }
+                else
+                {
+                    cout << "enter Fixed event name within that day" << endl;
+                    string FixedName;
+                    cin >> FixedName;
+                    year2018[weekN][dayN]->deleteSpecificEvent(FixedName,-1,false);
+                    FEBag.Bag.remove(FixedName);
+                    FEBag.SaveFile(FixedLocation);
+                }
+            }
 	}
 	else if(oper==2)
 	{
@@ -214,5 +507,7 @@ int main()
 	}
 	else
 		cout << "Enter something that is readable FOOL!!" << endl;
+    }
+
 	return 0;
 }

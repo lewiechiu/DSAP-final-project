@@ -22,4 +22,5 @@ bool FixedEvent::operator==(const FixedEvent& FE)const
 {
     if(this->name==FE.name)
         return true;
+    return false;
 }

@@ -107,6 +107,7 @@ void OurTime::Current()
     this->day = timeinfo->tm_mday;
     this->hour = timeinfo->tm_hour;
     this->minute = timeinfo->tm_min;
+    this->setTimeStr();
 }
 void OurTime::newDate(int addingDay)
 {
@@ -133,6 +134,7 @@ void OurTime::newDate(int addingDay)
         else
         {
             date += addingDay;
+            break;
         }
     }
 
@@ -328,6 +330,7 @@ const OurTime operator+(const OurTime& t, int minute)
                 sum.day += timeTemp;
             else//month is carried
             {
+
                 sum.newDate(timeTemp);
             }
         }

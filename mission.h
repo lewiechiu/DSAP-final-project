@@ -14,9 +14,10 @@ private:
     int priority; //0-10, 0 indicates that the mission can be ignored if needed
     OurTime deadline;
     bool isScheduled;
-    double score() const;
+
 public:
     Mission();
+    Mission(string name,string tagForGraph,string tagForC,int index,int totalCnt,int priority,OurTime deadline,int duration);
     Mission(string name, string tagForGraph, OurTime startTime, OurTime endTime, int duration,
             int index, int totalCnt, string tagForCategory, int priority, OurTime deadline);
     Mission(string name,string tagForGraph,OurTime StartT,OurTime EndT,int duration_int,int index_int,
@@ -34,6 +35,10 @@ public:
     string GetMdeadline()const;
     bool GetMisScheduled()const;
     string GetMtagCategory()const;
+    void setStartTime(OurTime& ST);
+    void setEndTime(OurTime& ET);
+    void setIsSchedule(bool isS);
+    double score() const;
 };
 
 #endif // MISSION

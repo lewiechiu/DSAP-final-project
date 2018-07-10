@@ -8,6 +8,16 @@ Mission::Mission():Event(), index(0), totalCnt(0), tagForCategory(""), priority(
     deadline not initialized yet
     */
 }
+Mission::Mission(string name,string tagForGraph,string tagForC,int index,int totalCnt,int priority,OurTime deadline,int duration) :index(index),totalCnt(totalCnt)
+,priority(priority),deadline(deadline),tagForCategory(tagForC)
+{
+    this->name = name;
+    this->tagForGraph = tagForGraph;
+    this->duration = duration;
+    this->isScheduled = false;
+    this->isDone = false;
+}
+
 Mission::Mission(string name, string tagForGraph, OurTime startTime, OurTime endTime, int duration,
                 int index, int totalCnt, string tagForCategory, int priority, OurTime deadline)
                 :Event(name, tagForGraph, startTime, endTime, duration), index(index), totalCnt(totalCnt), tagForCategory(tagForCategory), priority(priority), deadline(deadline)
@@ -83,4 +93,16 @@ bool Mission::GetMisScheduled()const
 string Mission::GetMtagCategory()const
 {
     return this->tagForCategory;
+}
+void Mission::setStartTime(OurTime& ST)
+{
+    this->startTime = ST;
+}
+void Mission::setEndTime(OurTime& ET)
+{
+    this->endTime = ET;
+}
+void Mission::setIsSchedule(bool isS)
+{
+    this->isScheduled = isS;
 }

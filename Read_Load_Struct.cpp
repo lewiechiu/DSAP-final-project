@@ -128,9 +128,10 @@ struct MissionBag
             Write+=",";
             Write+=Bag[i]->GetDuration();
             Write+=",";
-            Write+=Bag[i]->GetMisDone();
-            Write+=",";
-            Write+=Bag[i]->GetMisDone();
+            if(Bag[i]->GetMisDone())
+                Write+="1";
+            else
+                Write+="0";
             Write+=",";
             Write+=Bag[i]->GetMindex();
             Write+=",";
@@ -142,7 +143,10 @@ struct MissionBag
             Write+=",";
             Write+=Bag[i]->GetMdeadline();
             Write+=",";
-            Write+=Bag[i]->GetMisScheduled();
+            if(Bag[i]->GetMisScheduled())
+                Write+="1";
+            else
+                Write+="0";
             Write+="\n";
         }
         file<<Write;
@@ -180,31 +184,31 @@ struct MissionBag
                 endtime = Read.substr(0,comma);
                 Read = Read.substr(comma+1);
 
-                comma =  Read.find("\n");
+                comma =  Read.find(",");
                 duration = Read.substr(0,comma);
                 Read = Read.substr(comma+1);
 
-                comma =  Read.find("\n");
+                comma =  Read.find(",");
                 isDone = Read.substr(0,comma);
                 Read = Read.substr(comma+1);
 
-                comma =  Read.find("\n");
+                comma =  Read.find(",");
                 index = Read.substr(0,comma);
                 Read = Read.substr(comma+1);
 
-                comma =  Read.find("\n");
+                comma =  Read.find(",");
                 totalCnt = Read.substr(0,comma);
                 Read = Read.substr(comma+1);
 
-                comma =  Read.find("\n");
+                comma =  Read.find(",");
                 tagCategory = Read.substr(0,comma);
                 Read = Read.substr(comma+1);
 
-                comma =  Read.find("\n");
+                comma =  Read.find(",");
                 priority = Read.substr(0,comma);
                 Read = Read.substr(comma+1);
 
-                comma =  Read.find("\n");
+                comma =  Read.find(",");
                 deadline = Read.substr(0,comma);
                 Read = Read.substr(comma+1);
 

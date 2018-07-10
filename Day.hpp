@@ -20,16 +20,19 @@ public:
     Day();
     Day(OurTime& TD);
     int getDuration();//return available time duration(the current period) in minutes
-    void fillTime(Mission* missionToAllocate[], int numberOfMissions);//fill available time with missions passed by knapsack
-    void addFixedEvent(FixedEvent* fixedEventToAdd);
+    void fillTime(Event* missionToAllocate[], int numberOfMissions);//fill available time with missions passed by knapsack
+    void addFixedEvent(Event* fixedEventToAdd);
+    void RestoreMission(Event* MissionToAdd);
     void deleteNonFixedEvent();//when reallocating
     void setStatus(int minute,int theStatus);//set the status of the minute
     void setOccurrence_event(int minute, FixedEvent* anOccurrence);//set the occurrence of the minute
     void setOccurrence_mission(int minute, Mission* anOccurrence);
     int getStatus(int minute);//get the status of the minute
     Event* getOccurrence_event(int minute);//get the occurrence of the minute
-    void deleteSpecificEvent(string str);
+    void deleteSpecificEvent(string str,int parts,bool complete);
     void showToday();
+    string getToday()const;
+    void unCheck();
 };
 
 #endif /* Day_hpp */

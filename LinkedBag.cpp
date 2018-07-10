@@ -167,6 +167,8 @@ void LinkedBag<Type>::remove(const Type& removeItem)
     if(!this->isEmpty())
     {
         Node<Type>* goalPtr = this->getPointer(removeItem);
+        if(goalPtr==nullptr)
+            return;
         goalPtr->setItem(headptr->getItem());
         //change the remove item to the first item
         Node<Type>* delFirst = headptr;
@@ -175,6 +177,7 @@ void LinkedBag<Type>::remove(const Type& removeItem)
         delFirst = nullptr;
         this->item_count--;
     }
+    return ;
 }
 
 
@@ -252,6 +255,7 @@ Type LinkedBag<Type>::operator[](int index)const
         }
         return objective;
     }
+    return nullptr;
     //if index out of range exit
 }
 
@@ -261,5 +265,71 @@ int LinkedBag<Type>::get_itemCount()
     return this->item_count;
 }
 
-template class LinkedBag<Mission>;
-template class LinkedBag<FixedEvent>;
+template<typename Type>
+void LinkedBag<Type>::printBag()
+{
+    Node<Type>* cur = this->headptr;
+    while(cur!=nullptr)
+    {
+        cout << cur->getItem()->GetName() << " endT: " << cur->getItem()->GetendTime() << endl;
+        cur = cur->getNext();
+    }
+
+}
+
+template<typename Type>
+void LinkedBag<Type>::remove(string name,int index,int totalCnt)
+{
+    if(!this->isEmpty())
+    {
+        Node<Type>* goalPtr = this->headptr;
+        while(goalPtr!=nullptr)
+        {
+            //cout << stoi(goalPtr->getItem()->GetMindex()) << endl;
+            if((goalPtr->getItem()->GetName()==name)&&
+                (stoi(goalPtr->getItem()->GetMindex())==index)&&
+                (stoi(goalPtr->getItem()->GetMtotalCnt())==totalCnt))
+            {
+                break;
+            }
+            goalPtr = goalPtr->getNext();
+        }
+        if(goalPtr==nullptr)
+            return;
+        goalPtr->setItem(headptr->getItem());
+        //change the remove item to the first item
+        Node<Type>* delFirst = headptr;
+        headptr = headptr->getNext();
+        delete delFirst;
+        delFirst = nullptr;
+        this->item_count--;
+    }
+    return ;
+}
+
+template<typename Type>
+void LinkedBag<Type>::remove(string name)
+{
+    if(!this->isEmpty())
+    {
+        Node<Type>* goalPtr = this->headptr;
+        while(goalPtr!=nullptr)
+        {
+            if(goalPtr->getItem()->GetName()==name)
+                break;
+            goalPtr = goalPtr->getNext();
+        }
+        if(goalPtr==nullptr)
+            return;
+        goalPtr->setItem(headptr->getItem());
+        //change the remove item to the first item
+        Node<Type>* delFirst = headptr;
+        headptr = headptr->getNext();
+        delete delFirst;
+        delFirst = nullptr;
+        this->item_count--;
+    }
+}
+
+
+template class LinkedBag<Event*>;

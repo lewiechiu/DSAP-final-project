@@ -1,5 +1,6 @@
 #ifndef BAG_H_INCLUDED
 #define BAG_H_INCLUDED
+#include "event.h"
 using namespace std;
 
 template <class Type>
@@ -36,7 +37,6 @@ public:
     //@param: <Type> Node object
 };
 
-
 /*----------------------------------------------------Myexception.hpp--------------------------------------------------------*/
 
 template<typename Type>
@@ -66,6 +66,10 @@ public:
     void remove(const Type& removeItem) ;
     //remove certain Node which has same <Type> item as the given one from the LinkedBag
     //@param: <Type> Item
+
+    void remove(string name,int index,int totalCnt);
+    void remove(string name);
+
     int getSize() const;
     //get the size of the LinkedBag
     bool isEmpty() const;
@@ -83,6 +87,7 @@ public:
     //assignment operator. do a deep copy
 
     int get_itemCount();
+    void printBag();
 };
 
 
