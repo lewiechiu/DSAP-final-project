@@ -27,7 +27,12 @@ MissionBag* KnapSack( MissionBag &m,int Weight)
     then, I need to acquire all of the mission ShiPeiDu and their name combined in a string array
     After that, we acquire the mission cost of time to start the algorithm
     */
-    double K[n + 1][W + 1] = {0};
+    double **K;
+    K = new double*[n+1];
+
+    for(int i=0;i<n+1;i++)
+    	K[i] = new double[W+1];
+
     for (int i = 0; i <= n; i++)
 	{
         for (int w = 0; w <= W; w++)

@@ -36,24 +36,31 @@ string Event::GetDuration()const
 }
 bool Event::GetMisDone()const
 {
+    return 0;
 }
 string Event::GetMindex()const
 {
+    return 0;
 }
 string Event::GetMtotalCnt()const
 {
+    return 0;
 }
 string Event::GetMpriority()const
 {
+    return 0;
 }
 string Event::GetMdeadline()const
 {
+    return 0;
 }
 bool Event::GetMisScheduled()const
 {
+    return 0;
 }
 string Event::GetMtagCategory()const
 {
+    return 0;
 }
 void Event::setStartTime(OurTime& ST)
 {
