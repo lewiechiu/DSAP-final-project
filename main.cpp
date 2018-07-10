@@ -5,7 +5,7 @@
 #include "mission.h"
 #include "fixedevent.h"
 
-#include <SFML/Graphics.hpp>
+//#include <SFML/Graphics.hpp>
 #include "LinkedBag.h"
 #include "Knapscak.h"
 #include <fstream>
