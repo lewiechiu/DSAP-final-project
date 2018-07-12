@@ -734,7 +734,63 @@ int main()
     closeButtonText.setFillColor(sf::Color(62, 149, 164));
     closeButtonText.setPosition(closeButton.getPosition().x + closeButton.getSize().x / 2 - closeButtonText.getLocalBounds().width / 2, closeButton.getPosition().y + inCM(0.1));
 
+    //successfully add menu
+    bool sAddMenuOn = false;
+    bool sAdd_m = false;
+    sf::RectangleShape sAddMenu(sf::Vector2f(inCM(10), inCM(6)));
+    sAddMenu.setFillColor(sf::Color(230, 246, 244));
+    sAddMenu.setOutlineThickness(inCM(0.2));
+    sAddMenu.setOutlineColor(sf::Color(148, 216, 208));
+    sAddMenu.setPosition(800 + inCM(1.5) - sAddMenu.getSize().x / 2, 450 - sAddMenu.getSize().y / 2);
+    //successfully add menu text
+    sf::Text sAddText;
+    sAddText.setString("\"Sucessfully Add\"");
+    sAddText.setFont(calibri_bold);
+    sAddText.setCharacterSize(font_resize(20));
+    sAddText.setFillColor(sf::Color(62, 149, 164));
+    sAddText.setPosition(sAddMenu.getPosition().x + sAddMenu.getSize().x / 2 - sAddText.getLocalBounds().width / 2, sAddMenu.getPosition().y + inCM(2));
+    //sClose button
+    sf::RectangleShape sCloseButton(sf::Vector2f(inCM(3), inCM(1)));
+    sCloseButton.setFillColor(sf::Color(162, 219, 214));
+    sCloseButton.setPosition(sAddMenu.getPosition().x + sAddMenu.getSize().x / 2 - sCloseButton.getSize().x / 2, sAddMenu.getPosition().y + sAddMenu.getSize().y - inCM(2));
+    //sClose text
+    sf::Text sCloseButtonText;
+    sCloseButtonText.setString("close");
+    sCloseButtonText.setFillColor(sf::Color(62, 149, 164));
+    sCloseButtonText.setFont(calibri_normal);
+    sCloseButtonText.setCharacterSize(font_resize(18));
+    sCloseButtonText.setPosition(sCloseButton.getPosition().x + sCloseButton.getSize().x / 2 - sCloseButtonText.getLocalBounds().width / 2, sCloseButton.getPosition().y + inCM(0.1));
 
+
+
+    //too full menu
+    bool tooFullMenuOn = false;
+    sf::RectangleShape tooFullFilter(sf::Vector2f(1600 - inCM(1.5), 900));
+    tooFullFilter.setFillColor(sf::Color(0, 0, 0, 150));
+    tooFullFilter.setPosition(inCM(1.5), 0);
+    sf::RectangleShape tooFullMenu(sf::Vector2f(inCM(10), inCM(6)));
+    tooFullMenu.setFillColor(sf::Color(255, 255, 255));
+    tooFullMenu.setOutlineThickness(inCM(0.2));
+    tooFullMenu.setOutlineColor(sf::Color(157, 215, 208));
+    tooFullMenu.setPosition(800 + inCM(1.5) - tooFullMenu.getSize().x / 2, 450 - tooFullMenu.getSize().y / 2);
+    //invalid text
+    sf::Text tooFullText;
+    tooFullText.setString("Not Enough Time To Schedule Your Missions!\n");
+    tooFullText.setFillColor(sf::Color(62, 149, 164));
+    tooFullText.setCharacterSize(font_resize(13.5));
+    tooFullText.setFont(calibri_bold);
+    tooFullText.setPosition(tooFullMenu.getPosition().x + tooFullMenu.getSize().x / 2 - tooFullText.getLocalBounds().width / 2, tooFullMenu.getPosition().y + inCM(2));
+    //close button
+    sf::RectangleShape tCloseButton(sf::Vector2f(inCM(3), inCM(1)));
+    tCloseButton.setFillColor(sf::Color(162, 219, 214));
+    tCloseButton.setPosition(tooFullMenu.getPosition().x + tooFullMenu.getSize().x / 2 - tCloseButton.getSize().x / 2, tooFullMenu.getPosition().y + tooFullMenu.getSize().y - inCM(2));
+    //close button text
+    sf::Text tCloseButtonText;
+    tCloseButtonText.setString("close");
+    tCloseButtonText.setFont(calibri_normal);
+    tCloseButtonText.setCharacterSize(font_resize(18));
+    tCloseButtonText.setFillColor(sf::Color(62, 149, 164));
+    tCloseButtonText.setPosition(tCloseButton.getPosition().x + tCloseButton.getSize().x / 2 - tCloseButtonText.getLocalBounds().width / 2, tCloseButton.getPosition().y + inCM(0.1));
 
 
     for(int i=0;i<weeks;i++)
@@ -1002,6 +1058,140 @@ int main()
         if(page2)
         {
             sf::Vector2f mousePosition = sf::Vector2f(sf::Mouse::getPosition(window));
+
+            //too full menu on
+            if(tooFullMenuOn == true)
+            {
+                if(tCloseButton.getPosition().x <= mousePosition.x && mousePosition.x <= (tCloseButton.getPosition().x + tCloseButton.getSize().x) && tCloseButton.getPosition().y <= mousePosition.y && mousePosition.y <= (tCloseButton.getPosition().y + tCloseButton.getSize().y))
+                {
+                    tCloseButton.setFillColor(sf::Color(197, 233, 230));
+                    if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
+                    {
+                        tooFullMenuOn = false;
+                        sAddMenuOn = false;
+                        FEmenuOn = false;
+                        selectEventMenuOn = false;
+                        missionName = "";
+                        missionNameTyped.setString(missionName);
+                        missionNameBlockOn = false;
+                        FMcategory = "";
+                        FMcategoryTyped.setString(FMcategory);
+                        categoryBlockOn = false;
+                        for(int i = 0; i < 5; i++)
+                        {
+                            FMdeadline[i] = "";
+                            FMdeadlineTyped[i].setString(FMdeadline[i]);
+                            FMdurationBlockOn[i] = false;
+                        }
+                        for(int i = 0; i < 2; i++)
+                        {
+                            duration[i] = "";
+                            maxContiDuration[i] = "";
+                            durationTyped[i].setString(duration[i]);
+                            maxContiDurationTyped[i].setString(maxContiDuration[i]);
+                            FMdurationBlockOn[i] = false;
+                            maxContiDurationBlockOn[i] = false;
+                        }
+                        priority = "";
+                        priorityTyped.setString(priority);
+                        priorityBlockOn = false;
+                        eventName = "";
+                        eventNameTyped.setString(eventName);
+                        FEcategory = "";
+                        FEcategoryTyped.setString(FEcategory);
+                        for(int i = 0; i < 5; i++)
+                        {
+                            FEstartTime[i] = "";
+                            FEstartTimeTyped[i].setString(FEstartTime[i]);
+                            FEendTime[i] = "";
+                            FEendTimeTyped[i].setString(FEendTime[i]);
+                        }
+                        eventNameBlockOn = false;
+                        FEcategoryBlockOn = false;
+                        for(int i = 0; i < 5; i++)
+                        {
+                            FEstartTimeBlockOn[i] = false;
+                            FEendTimeBlockOn[i] = false;
+                        }
+                    }
+                }
+                else
+                    tCloseButton.setFillColor(sf::Color(162, 219, 214));
+            }
+
+
+
+
+            //sAdd menu on
+            if(sAddMenuOn == true)
+            {
+                if(sCloseButton.getPosition().x <= mousePosition.x && mousePosition.x <= (sCloseButton.getPosition().x + sCloseButton.getSize().x) && sCloseButton.getPosition().y <= mousePosition.y && mousePosition.y <= (sCloseButton.getPosition().y + sCloseButton.getSize().y))
+                {
+                    sCloseButton.setFillColor(sf::Color(197, 233, 230));
+                    if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
+                    {
+                        if(sAdd_m == true)
+                        {
+                            sAddMenuOn = false;
+                            FMmenuOn = false;
+                            selectEventMenuOn = true;
+                            missionName = "";
+                            missionNameTyped.setString(missionName);
+                            FMcategory = "";
+                            FMcategoryTyped.setString(FMcategory);
+                            for(int i = 0; i < 5; i++)
+                            {
+                                FMdeadline[i] = "";
+                                FMdeadlineTyped[i].setString(FMdeadline[i]);
+                            }
+                            for(int i = 0; i < 2; i++)
+                            {
+                                duration[i] = "";
+                                maxContiDuration[i] = "";
+                                durationTyped[i].setString(duration[i]);
+                                maxContiDurationTyped[i].setString(maxContiDuration[i]);
+                            }
+                            priority = "";
+                            priorityTyped.setString(priority);
+                            missionNameBlockOn = false;
+                            categoryBlockOn = false;
+                            for(int i = 0; i < 5; i++)
+                                deadlineBlockOn[i] = false;
+                            for(int i = 0; i < 2; i++)
+                                FMdurationBlockOn[i] = false;
+                            for(int i = 0; i < 2; i++)
+                                maxContiDurationBlockOn[i] = false;
+                            priorityBlockOn = false;
+                        }
+                        else if(sAdd_m == false)
+                        {
+                            sAddMenuOn = false;
+                            FEmenuOn = false;
+                            selectEventMenuOn = true;
+                            eventName = "";
+                            eventNameTyped.setString(eventName);
+                            FEcategory = "";
+                            FEcategoryTyped.setString(FEcategory);
+                            for(int i = 0; i < 5; i++)
+                            {
+                                FEstartTime[i] = "";
+                                FEstartTimeTyped[i].setString(FEstartTime[i]);
+                                FEendTime[i] = "";
+                                FEendTimeTyped[i].setString(FEendTime[i]);
+                            }
+                            eventNameBlockOn = false;
+                            FEcategoryBlockOn = false;
+                            for(int i = 0; i < 5; i++)
+                            {
+                                FEstartTimeBlockOn[i] = false;
+                                FEendTimeBlockOn[i] = false;
+                            }
+                        }
+                    }
+                }
+                else
+                    sCloseButton.setFillColor(sf::Color(162, 219, 214));
+            }
 
             //invalid menu on///////////////////////////////////////////////////////////////////////////////
             if(invalidMenuOn == true)
@@ -1372,6 +1562,12 @@ int main()
 
                             cout << "DDL: " << Deadline << endl;
 
+
+                            FMmenuOn = false;
+                            sAddMenuOn = true;
+                            sAdd_m = true;
+
+
                         }
                     }
                 }
@@ -1632,6 +1828,12 @@ int main()
                             FEBag.Bag.add(one);
                             FEBag.SaveFile(FixedLocation);
                             system("pause");
+
+
+                            FEmenuOn = false;
+                            sAddMenuOn = true;
+                            sAdd_m = false;
+
 
                         }
                     }
@@ -1919,6 +2121,21 @@ int main()
                 window.draw(closeButton);
                 window.draw(closeButtonText);
 
+            }
+            if(sAddMenuOn == true)
+            {
+                window.draw(sAddMenu);
+                window.draw(sAddText);
+                window.draw(sCloseButton);
+                window.draw(sCloseButtonText);
+            }
+            if(tooFullMenuOn == true)
+            {
+                window.draw(tooFullFilter);
+                window.draw(tooFullMenu);
+                window.draw(tooFullText);
+                window.draw(tCloseButton);
+                window.draw(tCloseButtonText);
             }
         }
         window.display();
