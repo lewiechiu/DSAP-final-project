@@ -18,7 +18,7 @@ MissionBag* KnapSack( MissionBag &m,int Weight)
     {
         wt[i] = stoi(pickout->Bag[i]->GetDuration());
         val[i] = pickout->Bag[i]->score();
-//        cout << val[i] << endl;
+        cout << val[i] << endl;
     }
     /*
     I will receive

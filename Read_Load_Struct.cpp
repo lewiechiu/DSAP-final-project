@@ -153,7 +153,7 @@ struct MissionBag
         file.close();//closes file
     }
 
-    void LoadFile(const string& FileName, bool ISDONE)
+    void LoadFile(const string& FileName)
     {
         ifstream file;// declaration of file pointer named infile
         file.open(FileName, ios::in);// opens file named "filename" for input
@@ -248,8 +248,7 @@ struct MissionBag
                                    priority_int, DeadT, isDone_b, isScheduled_b);
 
                 //you can pick which kind of bag you want either is a isDone one or a isNotDone one
-                if(ISDONE==isDone_b)
-                    this->Bag.add(newM);
+                this->Bag.add(newM);
             }
 
         file.close();//closes file

@@ -28,13 +28,20 @@ Day::Day(OurTime& TD)
 int Day::getDuration()
 {
     duration = 0;
+    OurTime aloha;
+    aloha.Current();
+    int rightNow = 0;
+    if((this->today.getDay()==aloha.getDay())&&(this->today.getMonth()==aloha.getMonth()))
+        rightNow = aloha.getHour() * 60 + aloha.getMinute();
+    else
+        rightNow = current;
 
-    for(int i = current ; i < TIME_SIZE ; i++)//find where the period starts
+    for(int i = rightNow ; i < TIME_SIZE ; i++)//find where the period starts
     {
         if((timeLine_type[i]==0))
         {
             current = i;
-            cout << "current " << current << endl;
+//            cout << "current " << current << endl;
             break;
         }
         if(i==1439)
@@ -50,7 +57,7 @@ int Day::getDuration()
             timeLine_type[i] = 3;
         }
     }
-    cout << "free time length: "<< duration << endl;
+//    cout << "free time length: "<< duration << endl;
         return duration;
 }
 
@@ -78,8 +85,11 @@ void Day::fillTime(Event* missionToAllocate[], int numberOfMissions)
                 continue;
             int missionDurationLeft = missionToAllocate[i]->getDuration();
             int count = 0;
-            for(int j = current+restTime ; j < current+duration ; j++)
+            cout << "current: "<<current << endl;
+            cout << "restTime:" << restTime <<endl;
+            for(int j = current ; j < current+duration ; j++)
             {
+
                 if(missionDurationLeft > 0)
                 {
                     timeLine[j].setOccurrence(missionToAllocate[i]);
@@ -113,9 +123,11 @@ void Day::fillTime(Event* missionToAllocate[], int numberOfMissions)
                     count++;
                     current++;
                 }
+
                 if(missionDurationLeft <= 0)
                     break;
             }
+            current = current + restTime;
         }
     }
 }
@@ -124,15 +136,16 @@ void Day::deleteNonFixedEvent()//in order to reschedule
 {
     for(int i = 0 ; i < TIME_SIZE ; i++)
     {
-        if((timeLine_type[i]!=2)&&(timeLine_type[i]!=0))//if status != fixedEvent
+        if(timeLine_type[i]==1)//if status != fixedEvent
         {
             OurTime resetTime("000000000000");
             timeLine[i].getOccurrence()->setStartTime(resetTime);
             timeLine[i].getOccurrence()->setEndTime(resetTime);
+            timeLine[i].getOccurrence()->setIsSchedule(false);
             timeLine_type[i] = 0;//set status to not allocated
             timeLine[i].setStatus(0);
             timeLine[i].setOccurrence(nullptr);//set occurrence pointer to null
-            timeLine[i].setEventIsScheduled(0);
+
             current = 0;
         }
     }
@@ -169,8 +182,8 @@ void Day::RestoreMission(Event* MissionToAdd)
     int start = MissionToAdd->getStartTime().getHour()*60+MissionToAdd->getStartTime().getMinute();
     for(int i = start ; i < start+MissionToAdd->getDuration() ; i++)
     {
-        timeLine_type[i] = 2;
-        timeLine[i].setStatus(2);
+        timeLine_type[i] = 1;
+        timeLine[i].setStatus(1);
         timeLine[i].setOccurrence(MissionToAdd);
     }
 }
@@ -281,6 +294,12 @@ void Day::unCheck()
     }
 }
 
+OurTime Day::getFreeTime()
+{
+    OurTime ans = this->today + current ;
+    ans = ans + duration;
+    return ans;
+}
 
 
 

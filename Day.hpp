@@ -33,6 +33,7 @@ public:
     void showToday();
     string getToday()const;
     void unCheck();
+    OurTime getFreeTime();
 };
 
 #endif /* Day_hpp */

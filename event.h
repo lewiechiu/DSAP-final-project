@@ -35,6 +35,7 @@ public:
     virtual void setIsSchedule(bool isS);
     virtual double score()const;
     OurTime getStartTime()const;
+    OurTime getEndTime()const;
     int getDuration()const;
     void setIsDone(bool isD);
 

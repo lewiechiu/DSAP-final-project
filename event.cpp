@@ -89,4 +89,9 @@ void Event::setIsDone(bool isD)
     this->isDone = isD;
 }
 
+OurTime Event::getEndTime()const
+{
+    return this->endTime;
+}
+
 
