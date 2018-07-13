@@ -161,7 +161,58 @@ void OurTime::newDate(int addingDay)
         }
     }
 }
-int OurTime::operator-(const OurTime& t) const
+
+
+bool OurTime::operator==(OurTime& t)
+{
+    return (this->getTimeStr()==t.getTimeStr());
+}
+bool OurTime::operator>=(OurTime& t)
+{
+    return (*this>t || *this==t);
+}
+bool OurTime::operator<=(OurTime& t)
+{
+    return (*this<t || *this==t);
+}
+bool OurTime::operator>(OurTime& t)
+{
+    if(t.getYear() > this->getYear())
+        return false;
+    else if(t.getYear() < this->getYear())
+        return true;
+    
+    //same year
+    if(t.getMonth() > this->getMonth())
+        return false;
+    else if(t.getMonth() < this->getMonth())
+        return true;
+    
+    //same month
+    if(t.getDay() > this->getDay())
+        return false;
+    else if(t.getDay() < this->getDay())
+        return true;
+    
+    //same day
+    if(t.getHour() > this->getHour())
+        return false;
+    else if(t.getHour() < this->getHour())
+        return true;
+    
+    //same hour
+    if(t.getMinute() > this->getMinute())
+        return false;
+    else if(t.getMinute() < this->getMinute())
+        return true;
+    return false;
+}
+bool OurTime::operator<(OurTime& t)
+{
+    return (t>*this);
+}
+
+int OurTime::operator-(const OurTime& t)const
 {
     OurTime minus(*this);
     int period = 0;

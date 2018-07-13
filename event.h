@@ -24,6 +24,8 @@ public:
     string GetendTime()const;
     string GetDuration() const;
     virtual bool GetMisDone()const;
+    virtual string GetMisDone_Str()const;
+    virtual string GetMisScheduled_Str()const;
     virtual string GetMindex()const;
     virtual string GetMtotalCnt()const;
     virtual string GetMpriority()const;
@@ -35,9 +37,9 @@ public:
     virtual void setIsSchedule(bool isS);
     virtual double score()const;
     OurTime getStartTime()const;
-    OurTime getEndTime()const;
     int getDuration()const;
     void setIsDone(bool isD);
+    OurTime getEndTime()const;
 
 
 };

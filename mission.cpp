@@ -65,6 +65,10 @@ int Mission::getDuration() const
 {
     return this->duration;
 }
+bool Mission::GetMisScheduled()const
+{
+    return this->isScheduled;
+}
 
 bool Mission::GetMisDone()const
 {
@@ -86,9 +90,14 @@ string Mission::GetMdeadline()const
 {
     return this->deadline.getTimeStr();
 }
-bool Mission::GetMisScheduled()const
+
+string Mission::GetMisDone_Str()const
 {
-    return this->isScheduled;
+    return (this->isDone? "1" : "0");
+}
+string Mission::GetMisScheduled_Str()const
+{
+    return (this->isScheduled? "1" : "0");
 }
 string Mission::GetMtagCategory()const
 {
