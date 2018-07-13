@@ -37,6 +37,46 @@ float font_resize(int oriSize)
 }
 
 
+    /*------------------------------CHAO------------------------------*/
+    float toPx(float cm);
+
+    int TotalBoxes;
+    int BoxIndex;
+    bool DisplayBox= false;
+    sf::Font font;
+    OurTime NOW;
+    int BoxMes_Button_index;
+    const float Remove_Button_XLen = toPx(1.88);
+    const float Remove_Button_YLen = toPx(0.5);
+    float Remove_Button_X;
+    float Remove_Button_Y;
+    const float Check_Button_XLen = toPx(1.88);
+    const float Check_Button_YLen = toPx(0.5);
+    float Check_Button_X;
+    float Check_Button_Y;
+    float X_Metrix[7];
+    float X_Start;
+    float Y_Start;
+    float Y_Length;
+    const float X_Length = inCM(3.24);
+    const float Y_Origin = inCM(3.77);
+    const float Y_Width_perMin = inCM(3.15)/360;
+    int OutTimeHM2Int(OurTime& T);
+
+    OurTime CountDate(OurTime& TIME, int Gap);
+    int round(int MinuGap);
+    void DrawCalenderBox(sf::RenderWindow& wn, sf::RectangleShape* ALL_RECTAN, const MissionBag& MBag, const FixedEventBag& FEBag, int move=0);
+    //move: -1 ->past week
+    //move: +1 ->next week
+    int MouseOnBoxes(sf::RenderWindow& wn, sf::RectangleShape* RS, int total);
+    int MouseOnTurnPage(sf::RenderWindow& wn, sf::CircleShape& leftButton, sf::CircleShape& rightButton);
+    void DrawBoxMes(sf::RenderWindow& wn, sf::RectangleShape* RS,sf::RectangleShape* BoxMes_Button, const MissionBag& MBag, const FixedEventBag& FEBag, int index);
+    /*------------------------------CHAO------------------------------*/
+
+
+
+
+
 
 int main()
 {
@@ -854,6 +894,19 @@ int main()
     }
 
 
+    //-----------------------CHAO -> initialize variables
+
+    //Remove, Check, Close of Mes Box
+    sf::RectangleShape BoxMes_Button[3];
+    //Check if there is aother box opened
+    bool NoOtherMesBox=true;
+    int move_page = 0;
+
+
+    //
+
+
+
 
     while (window.isOpen())
     {
@@ -907,6 +960,10 @@ int main()
 
         while (window.pollEvent(event))
         {
+
+
+
+
             //close window
             if(event.type == sf::Event::Closed)
                 window.close();
