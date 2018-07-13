@@ -44,7 +44,14 @@ public:
     bool monthChanged(int addingDay);
     void newDate(int addingDay);
     void Current();
-
+    
+    
+    bool operator==(OurTime& t);
+    bool operator>=(OurTime& t);
+    bool operator<=(OurTime& t);
+    bool operator<(OurTime& t);
+    bool operator>(OurTime& t);
+    
     int operator-(const OurTime& t) const;
 };
 const OurTime operator+(const OurTime& t, int minute);

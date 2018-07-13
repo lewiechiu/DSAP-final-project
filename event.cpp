@@ -49,18 +49,19 @@ string Event::GetMtotalCnt()const
 string Event::GetMpriority()const
 {
     return 0;
+
 }
 string Event::GetMdeadline()const
-{
-    return 0;
+{    return 0;
+
 }
 bool Event::GetMisScheduled()const
-{
-    return 0;
+{    return 0;
+
 }
 string Event::GetMtagCategory()const
-{
-    return 0;
+{    return 0;
+
 }
 void Event::setStartTime(OurTime& ST)
 {
@@ -74,8 +75,18 @@ void Event::setIsSchedule(bool isS)
 {
 }
 double Event::score()const
-{
+{    return 0;
+
 }
+string Event::GetMisDone_Str()const
+{
+    return 0;
+}
+string Event::GetMisScheduled_Str()const
+{
+    return 0;
+}
+
 OurTime Event::getStartTime()const
 {
     return this->startTime;
@@ -88,10 +99,8 @@ void Event::setIsDone(bool isD)
 {
     this->isDone = isD;
 }
-
 OurTime Event::getEndTime()const
 {
     return this->endTime;
 }
-
 

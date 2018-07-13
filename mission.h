@@ -29,11 +29,13 @@ public:
     bool operator<=(Mission toCompare) const;
     int getDuration() const;
     bool GetMisDone()const;
+    bool GetMisScheduled()const;
+    string GetMisDone_Str()const;
+    string GetMisScheduled_Str()const;
     string GetMindex()const;
     string GetMtotalCnt()const;
     string GetMpriority()const;
     string GetMdeadline()const;
-    bool GetMisScheduled()const;
     string GetMtagCategory()const;
     void setStartTime(OurTime& ST);
     void setEndTime(OurTime& ET);
