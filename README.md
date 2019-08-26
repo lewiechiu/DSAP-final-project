@@ -17,6 +17,9 @@ Our calendar application schedules users' daily events and misions based on the 
 
 
 ## Installation
-## Documentation
+You need [SFML](https://www.sfml-dev.org) to run this app.
+Compile and Run:
+    g++ main2.cpp -o main
+    ./main
 ## Demo Video
 ## Contributors
